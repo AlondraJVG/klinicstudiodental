@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://klinic:StudioDental.73@klinic.mysql.pythonanywhere-services.com/klinic$default'
 
+app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -43,7 +44,6 @@ def login():
 
     return render_template('login.html')
 
-# Página de dashboard (ejemplo de página a la que se podría redirigir después del login)
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
