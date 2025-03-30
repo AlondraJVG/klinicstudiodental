@@ -52,4 +52,25 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        correo = request.form['correo']
+        contrasena = request.form['contrasena']
+        
+        # Generar el hash de la contraseña
+        contrasena_hash = generate_password_hash(contrasena, method='pbkdf2:sha256')
+        
+        # Crear un nuevo usuario
+        nuevo_usuario = Usuario(nombre=nombre, correo=correo, contrasena=contrasena_hash)
+        
+        # Guardar el usuario en la base de datos
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+        
+        flash('Usuario registrado correctamente', 'success')
+        return redirect(url_for('login'))  # Redirigir al login después del registro
+
+    return render_template('register.html')  # Mostrar el formulario de registro
