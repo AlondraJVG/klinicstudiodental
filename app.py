@@ -35,7 +35,7 @@ def login():
         else:
             flash('Correo o contraseña incorrectos', 'danger')
 
-    return render_template('login.html')
+    return render_template('/templates/login.html')
 
 @app.route('/dashboard')
 def dashboard():
