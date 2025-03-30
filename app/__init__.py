@@ -1,12 +1,23 @@
+# app/__init__.py
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Klinical:chocoLATE.21@Klinical.mysql.pythonanywhere-services.com/Klinical$default'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Inicialización de las extensiones
+db = SQLAlchemy()
+mail = Mail()
 
-db = SQLAlchemy(app)
-
-# Aquí puedes importar tus rutas
-from app import routes
-
+def create_app():
+    app = Flask(__name__)
+    
+    # Configuración de la aplicación
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/dbname'
+    app.config['SECRET_KEY'] = 'your_secret_key'
+    app.config['MAIL_SERVER'] = 'smtp.example.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'your_email@example.com'
+    app.config['MAIL_PASSWORD'] = 'your_email_password'
+    
+    # Inicial
