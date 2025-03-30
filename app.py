@@ -6,7 +6,8 @@ app = Flask(__name__)
 app.secret_key = 'clave_secreta'
 
 # Conexión a MySQL en PythonAnywhere
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://usuario:contraseña@usuario.mysql.pythonanywhere-services.com/usuario$nombre_basedatos'
+app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Klinical:chocoLATE.21@Klinical.mysql.pythonanywhere-services.com/Klinical$Tables_in_Klinical$default'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
