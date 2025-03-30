@@ -1,47 +1,53 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
+app.secret_key = 'clave_secreta'
 
-# Configuración de la base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost/db_name'  # Reemplaza con tus credenciales
+# Conexión a MySQL en PythonAnywhere
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://usuario:contraseña@usuario.mysql.pythonanywhere-services.com/usuario$nombre_basedatos'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'mysecretkey'  # Cambia por una clave secreta para sesiones
 
 db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
 
-# Modelo de la tabla usuarios
+# Modelo de usuario
 class Usuario(db.Model):
+    __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    correo = db.Column(db.String(100), unique=True, nullable=False)
-    contrasena = db.Column(db.String(255), nullable=False)
-    fecha_creacion = db.Column(db.DateTime, default=db.func.current_timestamp())
+    nombre = db.Column(db.String(50))
+    correo = db.Column(db.String(100), unique=True)
+    contrasena = db.Column(db.String(255))
+    fecha_creacion = db.Column(db.DateTime)
 
-# Ruta para la página de login
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         correo = request.form['correo']
         contrasena = request.form['contrasena']
-        
-        # Buscar al usuario en la base de datos
         usuario = Usuario.query.filter_by(correo=correo).first()
-
+        
         if usuario and check_password_hash(usuario.contrasena, contrasena):
-            # El login es correcto, redirigir a la página principal
+            session['usuario'] = usuario.nombre
+            flash('Has iniciado sesión correctamente', 'success')
             return redirect(url_for('dashboard'))
         else:
             flash('Correo o contraseña incorrectos', 'danger')
 
     return render_template('login.html')
 
-# Ruta para la página de dashboard (después de iniciar sesión)
 @app.route('/dashboard')
 def dashboard():
-    return '¡Bienvenido al dashboard!'
+    if 'usuario' in session:
+        return f'Bienvenido, {session["usuario"]}!'
+    else:
+        return redirect(url_for('login'))
 
-# Ruta para registrar un nuevo usuario (solo por propósito de eje
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)
+    flash('Has cerrado sesión.', 'info')
+    return redirect(url_for('login'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
