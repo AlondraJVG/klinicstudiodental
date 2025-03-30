@@ -20,4 +20,4 @@ def create_app():
     app.config['MAIL_USERNAME'] = 'your_email@example.com'
     app.config['MAIL_PASSWORD'] = 'your_email_password'
     
-    # Inicial
+    
