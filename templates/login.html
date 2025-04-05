@@ -3,57 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión</title>
-    <!-- Cargar Bootstrap desde el CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJx3+1nNw5lTnB3+jgs+kP5/iO+nDh5prFSk9qN0Ff3gFiNp1dzB3T2B91wM" crossorigin="anonymous">
+    <title>Login</title>
     <style>
         body {
-            background-color: #f4f7fa;
-            padding-top: 50px;
+            background: #e0f7fa;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .card {
-            margin-top: 20px;
+        .login-container {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 150, 136, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            color: #00796b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #b2dfdb;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #009688;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00796b;
+        }
+        .message {
+            text-align: center;
+            margin-top: 1rem;
+            color: #d32f2f;
+        }
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Mensajes flash -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="alert alert-dismissible fade show" role="alert">
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} mt-2">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
 
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center">Iniciar sesión</h3>
-                        <form method="POST">
-                            <div class="mb-3">
-                                <label for="correo" class="form-label">Correo:</label>
-                                <input type="email" id="correo" name="correo" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="contrasena" class="form-label">Contraseña:</label>
-                                <input type="password" id="contrasena" name="contrasena" class="form-control" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-    <!-- Cargar JS de Bootstrap desde el CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb6dINf5OdqKXY8d6R5jlrA6g+z06Q5t6F7o4p9p6zOH87WQ1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0OrzD8m3Q7oGZl31+PWWf5h2D4pzw/Bh4RQou+q8u+Dypt2g" crossorigin="anonymous"></script>
+    <form method="POST">
+        <input type="email" name="correo" placeholder="Correo" required>
+        <input type="password" name="contrasena" placeholder="Contraseña" required>
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+
 </body>
 </html>
