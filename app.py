@@ -28,7 +28,10 @@ def login():
         usuario = Usuario.query.filter_by(correo=correo).first()
 
         if usuario:
-            print(f"Usuario encontrado: {usuario.nombre}")  # Verificamos si el usuario está en la base de datos
+            print(f"Usuario encontrado: {usuario.nombre}")  
+            print(f"Contraseña ingresada: {contrasena}") 
+            print(f"Contraseña en la base de datos (hashed): {usuario.contrasena}")  
+            
             if check_password_hash(usuario.contrasena, contrasena):
                 return 'La información es correcta'
             else:
