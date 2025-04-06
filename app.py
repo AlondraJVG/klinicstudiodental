@@ -27,10 +27,14 @@ def login():
         contrasena = request.form['contrasena']
         usuario = Usuario.query.filter_by(correo=correo).first()
 
-        if usuario and check_password_hash(usuario.contrasena, contrasena):
-            return 'La información es correcta'
+        if usuario:
+            print(f"Usuario encontrado: {usuario.nombre}")  # Verificamos si el usuario está en la base de datos
+            if check_password_hash(usuario.contrasena, contrasena):
+                return 'La información es correcta'
+            else:
+                return 'Contraseña incorrecta'
         else:
-            return 'Correo o contraseña incorrectos'
+            return 'Correo no encontrado'
     
     return render_template('login.html')
 
