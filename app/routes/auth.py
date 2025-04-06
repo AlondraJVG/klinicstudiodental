@@ -11,7 +11,7 @@ def login():
         usuario = Usuario.query.filter_by(correo=correo).first()
 
         if usuario and check_password_hash(usuario.contrasena, contrasena):
-            return 'La información es correcta'
+            return render_template('menu.html')
         elif usuario:
             return 'Contraseña incorrecta'
         else:
