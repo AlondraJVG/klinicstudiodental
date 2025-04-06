@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'clave_secreta'
 
 # Conexión a MySQL en PythonAnywhere
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Klinical:chocoLATE.21@Klinical.mysql.pythonanywhere-services.com/Klinical$default'
@@ -21,61 +20,16 @@ class Usuario(db.Model):
     fecha_creacion = db.Column(db.DateTime)
 
 # Ruta principal de login
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        correo = request.form['correo']
-        contrasena = request.form['contrasena']
-        usuario = Usuario.query.filter_by(correo=correo).first()
-        
-        if usuario and check_password_hash(usuario.contrasena, contrasena):
-            session['usuario'] = usuario.nombre
-            flash('Has iniciado sesión correctamente', 'success')
-            return 'La información es correcta'
-            # return redirect(url_for('dashboard'))
-        else:
-            flash('Correo o contraseña incorrectos', 'danger')
+    correo = request.form['correo']
+    contrasena = request.form['contrasena']
+    usuario = Usuario.query.filter_by(correo=correo).first()
 
-    return render_template('login.html')
-
-# Ruta del dashboard (área privada)
-@app.route('/dashboard')
-def dashboard():
-    if 'usuario' in session:
-        return f'Bienvenido, {session["usuario"]}!'
+    if usuario and check_password_hash(usuario.contrasena, contrasena):
+        return 'La información es correcta'
     else:
-        return redirect(url_for('login'))
-
-# Cerrar sesión
-@app.route('/logout')
-def logout():
-    session.pop('usuario', None)
-    flash('Has cerrado sesión.', 'info')
-    return redirect(url_for('login'))
-
-# Ruta de registro de nuevos usuarios
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        correo = request.form['correo']
-        contrasena = request.form['contrasena']
-        
-        # Generar el hash de la contraseña
-        contrasena_hash = generate_password_hash(contrasena, method='pbkdf2:sha256')
-        
-        # Crear un nuevo usuario
-        nuevo_usuario = Usuario(nombre=nombre, correo=correo, contrasena=contrasena_hash)
-        
-        # Guardar el usuario en la base de datos
-        db.session.add(nuevo_usuario)
-        db.session.commit()
-        
-        flash('Usuario registrado correctamente', 'success')
-        return redirect(url_for('login'))  # Redirigir al login después del registro
-
-    return render_template('register.html')  # Mostrar el formulario de registro
+        return 'Correo o contraseña incorrectos'
 
 if __name__ == '__main__':
     app.run(debug=True)
-
