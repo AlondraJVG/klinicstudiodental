@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash
 
@@ -32,7 +32,7 @@ def login():
         else:
             return 'Correo o contraseña incorrectos'
     
-    return 'Formulario de login (pendiente)'
+    return render_template('login.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
