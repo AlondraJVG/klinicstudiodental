@@ -20,16 +20,19 @@ class Usuario(db.Model):
     fecha_creacion = db.Column(db.DateTime)
 
 # Ruta principal de login
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    correo = request.form['correo']
-    contrasena = request.form['contrasena']
-    usuario = Usuario.query.filter_by(correo=correo).first()
+    if request.method == 'POST':
+        correo = request.form['correo']
+        contrasena = request.form['contrasena']
+        usuario = Usuario.query.filter_by(correo=correo).first()
 
-    if usuario and check_password_hash(usuario.contrasena, contrasena):
-        return 'La información es correcta'
-    else:
-        return 'Correo o contraseña incorrectos'
+        if usuario and check_password_hash(usuario.contrasena, contrasena):
+            return 'La información es correcta'
+        else:
+            return 'Correo o contraseña incorrectos'
+    
+    return 'Formulario de login (pendiente)'
 
 if __name__ == '__main__':
     app.run(debug=True)
