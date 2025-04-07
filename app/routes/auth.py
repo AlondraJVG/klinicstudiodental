@@ -3,6 +3,8 @@ from app import app, db
 from app.models.usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
 
+app.config['SECRET_KEY'] = 'tu_clave_secreta'
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
