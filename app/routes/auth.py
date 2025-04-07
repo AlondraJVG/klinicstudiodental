@@ -1,4 +1,4 @@
-from flask import request, render_template
+from flask import request, render_template, redirect, url_for, flash
 from app import app, db
 from app.models.usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,10 +12,12 @@ def login():
 
         if usuario and check_password_hash(usuario.contrasena, contrasena):
             return render_template('menu.html')
-        elif usuario:
-            return 'Contraseña incorrecta'
         else:
-            return 'Correo no encontrado'
+            if usuario:
+                flash('Contraseña incorrecta', 'error')
+            else:
+                flash('Correo no encontrado', 'error')
+            return redirect(url_for('login'))  
 
     return render_template('login.html')
 
