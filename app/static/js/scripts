@@ -1,0 +1,6 @@
+setTimeout(function() {
+    var messages = document.querySelectorAll('.message');
+    messages.forEach(function(msg) {
+        msg.style.display = 'none';
+    });
+}, 3000); // 3 segundos
