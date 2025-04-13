@@ -45,4 +45,4 @@ def rUsuario():
 
         return 'Usuario creado con éxito'
 
-    return render_template('register.html')
+    return render_template('nuevo_paciente.html')
