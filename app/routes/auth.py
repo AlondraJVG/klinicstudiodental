@@ -24,7 +24,7 @@ def login():
     return render_template('login.html')
 
 @auth_bp.route('/register', methods=['GET', 'POST'])  # <--- Usas auth_bp
-def rUsuario():
+def register():
     if request.method == 'POST':
         nombre = request.form['nombre']
         apellidos = request.form['apellidos']
