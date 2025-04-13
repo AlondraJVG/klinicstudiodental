@@ -3,6 +3,12 @@
 *, *:after, *:before {
 	box-sizing: border-box;
 }
+.icono-menu {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
 
 body {
 	font-family: "Inter", sans-serif;
