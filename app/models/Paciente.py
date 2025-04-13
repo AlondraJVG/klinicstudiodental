@@ -1,4 +1,5 @@
 from app import db
+from sqlalchemy import Date
 
 class Paciente(db.Model):
     __tablename__ = 'Pacientes'
