@@ -3,9 +3,11 @@ from app import db
 from app.models.usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
 
-auth_bp = Blueprint('auth', __name__)  
+# Se mantiene el Blueprint
+auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/', methods=['GET', 'POST'])  
+# Ruta de login
+@auth_bp.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         correo = request.form['correo']
@@ -19,11 +21,12 @@ def login():
                 flash('Contraseña incorrecta', 'error')
             else:
                 flash('Correo no encontrado', 'error')
-            return redirect(url_for('auth.login'))  # también cambias aquí (auth.login)
+            return redirect(url_for('auth.login')) 
 
     return render_template('login.html')
 
-@auth_bp.route('/register', methods=['GET', 'POST'])  # <--- Usas auth_bp
+# Ruta de registro dentro del Blueprint
+@auth_bp.route('/register', methods=['GET', 'POST'])  
 def register():
     if request.method == 'POST':
         nombre = request.form['nombre']
