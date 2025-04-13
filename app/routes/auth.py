@@ -7,7 +7,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Se mantiene el Blueprint
 auth_bp = Blueprint('auth', __name__)
 
-auth_bp.config['SECRET_KEY'] = 'mi_clave_secreta_segura'
 
 # Ruta de login
 @auth_bp.route('/', methods=['GET', 'POST'])
