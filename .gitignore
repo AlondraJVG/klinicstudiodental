@@ -1,0 +1,17 @@
+# Carpetas automáticas de Python
+__pycache__/
+*.py[cod]
+
+# Entorno virtual
+.venv/
+venv/
+
+# Archivos de entorno (variables secretas)
+.env
+
+# Archivos de configuración de VSCode
+.vscode/
+
+# Archivos de sistema (Windows/Mac)
+.DS_Store
+Thumbs.db
