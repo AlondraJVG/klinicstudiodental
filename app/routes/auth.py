@@ -23,8 +23,8 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/rUsuario', methods=['GET', 'POST'])
+def rUsuario():
     if request.method == 'POST':
         nombre = request.form['nombre']
         apellidos = request.form['apellidos']
