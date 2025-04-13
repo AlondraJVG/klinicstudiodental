@@ -10,6 +10,7 @@ def create_app():
 
     db.init_app(app)
 
+    # Importar y registrar las rutas
     from app.routes.auth import auth_bp
     from app.routes.paciente import paciente_bp
 

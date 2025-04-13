@@ -1,4 +1,4 @@
-from app.routes import db
+from app import db
 
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
