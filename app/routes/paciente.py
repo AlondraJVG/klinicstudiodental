@@ -42,10 +42,6 @@ def nuevo_paciente():
             contacto_emergencia=contacto_emergencia,
             nombre_contacto = nombre_contacto
             
-            
-        
-
-            
         )
         db.session.add(nuevo)
         db.session.commit()
