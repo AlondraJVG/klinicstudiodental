@@ -40,6 +40,48 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="edad" class="form-label">Edad:</label>
+                        <input type="number" class="form-control" id="edad" name="edad" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sexo" class="form-label">Sexo:</label>
+                        <select class="form-select" id="sexo" name="sexo" required>
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="datos_contacto" class="form-label">Dirección / Datos de contacto:</label>
+                        <textarea class="form-control" id="datos_contacto" name="datos_contacto" rows="2"
+                            required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tipo_sangre" class="form-label">Tipo de Sangre:</label>
+                        <select class="form-select" id="tipo_sangre" name="tipo_sangre" required>
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contacto_emergencia" class="form-label">Contacto de Emergencia:</label>
+                        <textarea class="form-control" id="contacto_emergencia" name="contacto_emergencia" rows="2"
+                            required></textarea>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="correo" class="form-label">Correo Electrónico:</label>
                         <input type="email" class="form-control" id="correo" name="correo" required>
                     </div>
@@ -53,6 +95,7 @@
                         <button type="submit" class="btn btn-primary">Guardar Paciente</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
