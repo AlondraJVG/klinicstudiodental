@@ -24,11 +24,11 @@ def nuevo_paciente():
         fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, "%Y-%m-%d").date()
         edad = calcular_edad(fecha_nacimiento)
         sexo = request.form['sexo']
-        datos_contacto = request.form['datos_contacto']
         tipo_sangre = request.form['tipo_sangre']
-        contacto_emergencia = request.form['contacto_emergencia']
         correo = request.form['correo']
         telefono = request.form['telefono']
+        contacto_emergencia = request.form['contacto_emergencia']
+        nombre_contacto = request.form['nombre_contacto']
 
         nuevo = Paciente(
             nombre=nombre,
@@ -36,11 +36,16 @@ def nuevo_paciente():
             fecha_nacimiento=fecha_nacimiento,
             edad=edad,
             sexo=sexo,
-            datos_contacto=datos_contacto,
             tipo_sangre=tipo_sangre,
-            contacto_emergencia=contacto_emergencia,
             correo=correo,
-            telefono=telefono
+            telefono=telefono,
+            contacto_emergencia=contacto_emergencia,
+            nombre_contacto = nombre_contacto
+            
+            
+        
+
+            
         )
         db.session.add(nuevo)
         db.session.commit()
@@ -60,11 +65,11 @@ def editar_paciente(id):
         paciente.fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, "%Y-%m-%d").date()
         paciente.edad = calcular_edad(paciente.fecha_nacimiento)
         paciente.sexo = request.form['sexo']
-        paciente.datos_contacto = request.form['datos_contacto']
         paciente.tipo_sangre = request.form['tipo_sangre']
-        paciente.contacto_emergencia = request.form['contacto_emergencia']
         paciente.correo = request.form['correo']
         paciente.telefono = request.form['telefono']
+        paciente.contacto_emergencia = request.form['contacto_emergencia']
+        paciente.nombre_contacto = request.form['nombre_contacto']
 
         db.session.commit()
         flash('Paciente actualizado exitosamente')
