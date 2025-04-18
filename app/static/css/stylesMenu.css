@@ -64,16 +64,22 @@ ul li a span {
 /* Submenú oculto por defecto */
 .submenu {
     position: relative;
+    display: inline-block;
 }
 
-.submenu .submenu-items {
-    border: 1px solid red;
+.submenu .submenu-toggle {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
 }
 
 .submenu .submenu-items {
     display: none;
     position: absolute;
-    top: 100%; /* justo debajo */
+    top: 100%;
     left: 0;
     background-color: #222;
     border-radius: 8px;
@@ -84,7 +90,7 @@ ul li a span {
     min-width: 180px;
 }
 
-.submenu:hover .submenu-items {
+.submenu.show .submenu-items {
     display: block;
 }
 

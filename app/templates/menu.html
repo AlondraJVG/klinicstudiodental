@@ -21,9 +21,25 @@
                 <li><a href="{{ url_for('paciente.lista_pacientes') }}"><span>Lista de Pacientes</span></a></li>
                 <li><a href="{{ url_for('paciente.nuevo_paciente') }}"><span>Nuevo Paciente</span></a></li>
             </ul>
-        </li>        
+        </li>
         <li><a href="#"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
         <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
         <li><a href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
     </ul>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.querySelector('.submenu-toggle');
+            const submenu = document.querySelector('.submenu');
+
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                submenu.classList.toggle('show');
+            });
+            document.addEventListener('click', function (e) {
+                if (!submenu.contains(e.target)) {
+                    submenu.classList.remove('show');
+                }
+            });
+        });
+    </script>
 </body>
