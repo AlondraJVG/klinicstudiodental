@@ -69,6 +69,50 @@ body {
     transition: transform 0.3s ease;
 }
 
-.submenu-items.active + .flecha {
+.submenu-items.active+.flecha {
     transform: rotate(180deg);
+}
+
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 999;
+    background-color: #1c1c1c;
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.contenido {
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .menu-lateral {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        transition: left 0.3s ease;
+        z-index: 998;
+    }
+
+    .menu-lateral.activo {
+        left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .contenido {
+        margin-left: 0;
+        padding-top: 60px;
+    }
 }

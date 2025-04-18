@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesMenu.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    <!-- Botón hamburguesa para pantallas pequeñas -->
+    <button class="menu-toggle" onclick="document.querySelector('.menu-lateral').classList.toggle('activo')">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    {% include 'menu.html' %}
+
+    <!-- Contenido principal -->
+    <div class="contenido">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        // Submenú toggle
