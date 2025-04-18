@@ -7,15 +7,20 @@
         <a href="{{ url_for('paciente.nuevo_paciente') }}" class="btn btn-primary">+ Nuevo Paciente</a>
     </div>
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ messages[0] }}
+    <ul>
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
     </div>
     {% endif %}
     {% endwith %}
-
+    
     <div class="card shadow-lg rounded-4">
         <div class="card-body">
             {% if pacientes %}
@@ -50,9 +55,12 @@
                             <td>{{ paciente.contacto_emergencia }}</td>
                             <td>{{ paciente.nombre_contacto }}</td>
                             <td>
-                                <a href="{{ url_for('paciente.editar_paciente', id=paciente.id) }}" class="btn btn-sm btn-warning mb-1">Editar</a>
-                                <form action="{{ url_for('paciente.eliminar_paciente', id=paciente.id) }}" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este paciente?')">Eliminar</button>
+                                <a href="{{ url_for('paciente.editar_paciente', id=paciente.id) }}"
+                                    class="btn btn-sm btn-warning mb-1">Editar</a>
+                                <form action="{{ url_for('paciente.eliminar_paciente', id=paciente.id) }}" method="POST"
+                                    style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('¿Estás seguro de eliminar este paciente?')">Eliminar</button>
                                 </form>
                             </td>
                         </tr>

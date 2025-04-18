@@ -17,40 +17,35 @@ def lista_pacientes():
 
 @paciente_bp.route('/pacientes/nuevo', methods=['GET', 'POST'])
 def nuevo_paciente():
-    try:
-        if request.method == 'POST':
-            nombre = request.form['nombre']
-            apellido = request.form['apellido']
-            fecha_nacimiento_str = request.form['fecha_nacimiento']
-            fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, "%Y-%m-%d").date()
-            edad = calcular_edad(fecha_nacimiento)
-            sexo = request.form['sexo']
-            tipo_sangre = request.form['tipo_sangre']
-            correo = request.form['correo']
-            telefono = request.form['telefono']
-            contacto_emergencia = request.form['contacto_emergencia']
-            nombre_contacto = request.form['nombre_contacto']
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        fecha_nacimiento_str = request.form['fecha_nacimiento']
+        fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, "%Y-%m-%d").date()
+        edad = calcular_edad(fecha_nacimiento)
+        sexo = request.form['sexo']
+        tipo_sangre = request.form['tipo_sangre']
+        correo = request.form['correo']
+        telefono = request.form['telefono']
+        contacto_emergencia = request.form['contacto_emergencia']
+        nombre_contacto = request.form['nombre_contacto']
 
-            nuevo = Paciente(
-                nombre=nombre,
-                apellido=apellido,
-                fecha_nacimiento=fecha_nacimiento,
-                edad=edad,
-                sexo=sexo,
-                tipo_sangre=tipo_sangre,
-                correo=correo,
-                telefono=telefono,
-                contacto_emergencia=contacto_emergencia,
-                nombre_contacto = nombre_contacto
-                
-            )
-            db.session.add(nuevo)
-            db.session.commit()
-            flash('Paciente creado exitosamente')
-            return redirect(url_for('paciente.lista_pacientes'))
-    
-    except Exception as e:
-        flash(f'Ocurrió un error: {e}')
+        nuevo = Paciente(
+            nombre=nombre,
+            apellido=apellido,
+            fecha_nacimiento=fecha_nacimiento,
+            edad=edad,
+            sexo=sexo,
+            tipo_sangre=tipo_sangre,
+            correo=correo,
+            telefono=telefono,
+            contacto_emergencia=contacto_emergencia,
+            nombre_contacto = nombre_contacto
+            
+        )
+        db.session.add(nuevo)
+        db.session.commit()
+        flash('Paciente creado exitosamente')
         return redirect(url_for('paciente.lista_pacientes'))
     
     return render_template('nuevo_paciente.html')

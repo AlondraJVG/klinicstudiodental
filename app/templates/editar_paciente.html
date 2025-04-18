@@ -3,7 +3,20 @@
 {% block content %}
 <div class="container mt-5">
     <h3 class="text-primary">Editar Paciente</h3>
-    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul>
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    {% endif %}
+    {% endwith %}
+
     <form method="POST">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
@@ -11,23 +24,26 @@
         </div>
         <div class="mb-3">
             <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ paciente.apellido }}" required>
+            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ paciente.apellido }}"
+                required>
         </div>
         <div class="mb-3">
             <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ paciente.fecha_nacimiento }}" required>
+            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento"
+                value="{{ paciente.fecha_nacimiento }}" required>
         </div>
         <div class="mb-3">
             <label for="sexo" class="form-label">Sexo</label>
             <select class="form-select" id="sexo" name="sexo" required>
-                <option value="M" {% if paciente.sexo == 'M' %} selected {% endif %}>Masculino</option>
-                <option value="F" {% if paciente.sexo == 'F' %} selected {% endif %}>Femenino</option>
-                <option value="O" {% if paciente.sexo == 'O' %} selected {% endif %}>Otro</option>
+                <option value="M" {% if paciente.sexo=='M' %} selected {% endif %}>Masculino</option>
+                <option value="F" {% if paciente.sexo=='F' %} selected {% endif %}>Femenino</option>
+                <option value="O" {% if paciente.sexo=='O' %} selected {% endif %}>Otro</option>
             </select>
         </div>
         <div class="mb-3">
             <label for="tipo_sangre" class="form-label">Tipo de Sangre</label>
-            <input type="text" class="form-control" id="tipo_sangre" name="tipo_sangre" value="{{ paciente.tipo_sangre }}" required>
+            <input type="text" class="form-control" id="tipo_sangre" name="tipo_sangre"
+                value="{{ paciente.tipo_sangre }}" required>
         </div>
         <div class="mb-3">
             <label for="correo" class="form-label">Correo Electrónico</label>
@@ -35,17 +51,20 @@
         </div>
         <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" class="form-control" id="telefono" name="telefono" value="{{ paciente.telefono }}" required>
+            <input type="tel" class="form-control" id="telefono" name="telefono" value="{{ paciente.telefono }}"
+                required>
         </div>
         <div class="mb-3">
             <label for="contacto_emergencia" class="form-label">Teléfono Contacto Emergencia</label>
-            <input type="tel" class="form-control" id="contacto_emergencia" name="contacto_emergencia" value="{{ paciente.contacto_emergencia }}" required>
+            <input type="tel" class="form-control" id="contacto_emergencia" name="contacto_emergencia"
+                value="{{ paciente.contacto_emergencia }}" required>
         </div>
         <div class="mb-3">
             <label for="nombre_contacto" class="form-label">Nombre Contacto Emergencia</label>
-            <input type="text" class="form-control" id="nombre_contacto" name="nombre_contacto" value="{{ paciente.nombre_contacto }}" required>
+            <input type="text" class="form-control" id="nombre_contacto" name="nombre_contacto"
+                value="{{ paciente.nombre_contacto }}" required>
         </div>
-        
+
         <button type="submit" class="btn btn-success">Guardar Cambios</button>
     </form>
 </div>
