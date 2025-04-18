@@ -3,37 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mi Sistema{% endblock %}</title>
-
+    <title>Menú Lateral</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesMenu.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    {% block head_extra %}{% endblock %}
 </head>
 <body>
-    <ul>
+    <ul class="menu-lateral">
         <li><a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
         <li><a href="#"><i class="fas fa-image"></i><span>Images</span></a></li>
         <li><a href="#"><i class="fas fa-file-alt"></i><span>Files</span></a></li>
         <li><a href="#"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
+
         <li class="submenu">
-            <a href="#">
+            <a href="#" class="submenu-toggle">
                 <img src="{{ url_for('static', filename='imagenes/Paciente.png') }}" class="icono-menu">
                 <span>Paciente</span>
+                <i class="fas fa-chevron-down flecha"></i>
             </a>
             <ul class="submenu-items">
-                <li><a href="{{ url_for('paciente.lista_pacientes') }}"><span>Lista de Pacientes</span></a></li>
-                <li><a href="{{ url_for('paciente.nuevo_paciente') }}"><span>Nuevo Paciente</span></a></li>
+                <li><a href="{{ url_for('paciente.lista_pacientes') }}">Lista de Pacientes</a></li>
+                <li><a href="{{ url_for('paciente.nuevo_paciente') }}">Nuevo Paciente</a></li>
             </ul>
-        </li>        
+        </li>
+
         <li><a href="#"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
         <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
         <li><a href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
     </ul>
 
-    <div class="contenido">
-        {% block content %}{% endblock %}
-    </div>
+    <script>
+        // Script para mostrar submenu al hacer clic
+        document.addEventListener("DOMContentLoaded", function () {
+            const submenuToggle = document.querySelector(".submenu .submenu-toggle");
+            const submenuItems = document.querySelector(".submenu .submenu-items");
 
-    {% block scripts %}{% endblock %}
+            submenuToggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                submenuItems.classList.toggle("active");
+            });
+
+            document.addEventListener("click", function (e) {
+                if (!document.querySelector(".submenu").contains(e.target)) {
+                    submenuItems.classList.remove("active");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
