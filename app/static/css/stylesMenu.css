@@ -80,7 +80,7 @@ ul li a span {
     list-style: none;
     padding: 0;
     margin: 0;
-    z-index: 9999; /* importante para que quede al frente */
+    z-index: 9999; 
     min-width: 180px;
 }
 
