@@ -3,7 +3,7 @@ from datetime import datetime, date
 from app import db
 from app.models.Paciente import Paciente
 
-paciente_bp = Blueprint('paciente', __name__)
+paciente_bp = Blueprint('paciente', __name__, template_folder='templates')
 
 def calcular_edad(fecha_nacimiento):
     hoy = date.today()
