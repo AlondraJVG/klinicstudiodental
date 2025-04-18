@@ -1,109 +1,74 @@
-/* stylesMenu.css */
-
 body {
     margin: 0;
-    padding: 0;
-    background: #f4f4f4;
-    font-family: sans-serif;
-}
-
-ul {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 80px;
-    height: 100%;
-    background: #111;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-}
-
-ul li {
-    width: 100%;
-    list-style: none;
-    margin: 20px 0;
-    position: relative;
-}
-
-ul li a {
-    text-decoration: none;
-    color: #fff;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
-}
-
-ul li a:hover {
-    background: #1a1a1a;
-}
-
-ul li a img.icono-menu,
-ul li a i {
-    font-size: 24px;
-    margin-bottom: 5px;
-}
-
-ul li a span {
-    font-size: 12px;
-    display: block;
-    text-align: center;
-}
-.icono-menu {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    margin-bottom: 5px;
-}
-
-/* Submenú oculto por defecto */
-.submenu {
-    position: relative;
-    display: inline-block;
-}
-
-.submenu .submenu-toggle {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-.submenu .submenu-items {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    font-family: "Lato", sans-serif;
     background-color: #222;
-    border-radius: 8px;
+    color: white;
+}
+
+.menu-lateral {
     list-style: none;
-    padding: 0;
     margin: 0;
-    z-index: 9999; 
-    min-width: 180px;
+    padding: 0;
+    width: 250px;
+    background-color: #1c1c1c;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
 }
 
-.submenu.show .submenu-items {
-    display: block;
+.menu-lateral li {
+    border-bottom: 1px solid #333;
 }
 
-.submenu-items li {
-    padding: 10px 20px;
+.menu-lateral a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.menu-lateral a:hover {
+    background-color: #444;
+}
+
+.menu-lateral i {
+    margin-right: 10px;
+}
+
+.icono-menu {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.submenu-items {
+    display: none;
+    background-color: #333;
+    padding-left: 20px;
+    flex-direction: column;
+}
+
+.submenu-items.active {
+    display: flex;
 }
 
 .submenu-items li a {
-    color: white;
-    text-decoration: none;
-    display: block;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #ddd;
 }
 
 .submenu-items li a:hover {
     background-color: #444;
+    color: #fff;
+}
+
+.flecha {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.submenu-items.active + .flecha {
+    transform: rotate(180deg);
 }
