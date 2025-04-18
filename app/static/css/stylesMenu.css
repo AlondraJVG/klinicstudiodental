@@ -67,31 +67,37 @@ ul li a span {
 }
 
 .submenu .submenu-items {
+    border: 1px solid red;
+}
+
+.submenu .submenu-items {
     display: none;
     position: absolute;
-    left: 0; 
-    top: 100%; 
+    top: 100%; /* justo debajo */
+    left: 0;
     background-color: #222;
-    border-radius: 4px;
+    border-radius: 8px;
     list-style: none;
-    margin: 0;
     padding: 0;
-    z-index: 1000;
-    min-width: 160px;
+    margin: 0;
+    z-index: 9999; /* importante para que quede al frente */
+    min-width: 180px;
 }
 
 .submenu:hover .submenu-items {
     display: block;
 }
 
+.submenu-items li {
+    padding: 10px 20px;
+}
+
 .submenu-items li a {
-    display: block;
-    padding: 10px 15px;
     color: white;
     text-decoration: none;
-    font-size: 14px;
+    display: block;
 }
 
 .submenu-items li a:hover {
-    background-color: #333;
+    background-color: #444;
 }
