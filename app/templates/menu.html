@@ -12,11 +12,15 @@
         <li><a href="#"><i class="fas fa-image"></i><span>Images</span></a></li>
         <li><a href="#"><i class="fas fa-file-alt"></i><span>Files</span></a></li>
         <li><a href="#"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
-        <li>
-            <a href="{{ url_for('paciente.nuevo_paciente') }}">
+        <li class="submenu">
+            <a href="#">
                 <img src="{{ url_for('static', filename='imagenes/Paciente.png') }}" class="icono-menu">
                 <span>Paciente</span>
             </a>
+            <ul class="submenu-items">
+                <li><a href="{{ url_for('paciente.nuevo_paciente') }}">Nuevo Paciente</a></li>
+                <li><a href="{{ url_for('paciente.lista_pacientes') }}">Lista de Pacientes</a></li>
+            </ul>
         </li>
         <li><a href="#"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
         <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>

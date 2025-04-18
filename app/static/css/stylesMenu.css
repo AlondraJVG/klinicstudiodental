@@ -60,3 +60,37 @@ ul li a span {
     object-fit: contain;
     margin-bottom: 5px;
 }
+
+/* Submenú oculto por defecto */
+.submenu .submenu-items {
+    display: none;
+    flex-direction: column;
+    background-color: #222;
+    position: absolute;
+    left: 80px; 
+    top: 0;
+    min-width: 150px;
+    border-radius: 4px;
+    z-index: 999;
+}
+
+
+.submenu:hover .submenu-items {
+    display: flex;
+}
+
+.submenu-items li {
+    width: 100%;
+    padding: 10px;
+}
+
+.submenu-items li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+}
+
+.submenu-items li a:hover {
+    background-color: #333;
+}
