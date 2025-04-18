@@ -54,3 +54,9 @@ ul li a span {
     display: block;
     text-align: center;
 }
+.icono-menu {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
