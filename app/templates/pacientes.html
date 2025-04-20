@@ -8,23 +8,24 @@
         <h3 class="text-primary">Lista de Pacientes</h3>
         <a href="{{ url_for('paciente.nuevo_paciente') }}" class="btn btn-primary">+ Nuevo Paciente</a>
     </div>
+
+    <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <ul>
+      {% if messages %}
         {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+          </div>
         {% endfor %}
-    </ul>
-    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-    </div>
-    {% endif %}
+      {% endif %}
     {% endwith %}
+
     <form method="GET" action="{{ url_for('paciente.lista_pacientes') }}" class="mb-3 d-flex">
         <input type="text" name="busqueda" class="form-control me-2" placeholder="Buscar paciente..." value="{{ request.args.get('busqueda', '') }}">
         <button type="submit" class="btn btn-outline-primary">Buscar</button>
     </form>
+
     <div class="card shadow-lg rounded-4">
         <div class="card-body">
             {% if pacientes %}

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from datetime import datetime, date
 from app import db
 from app.models.Paciente import Paciente
+from sqlalchemy import or_, and_
 
 paciente_bp = Blueprint('paciente', __name__, template_folder='templates')
 
