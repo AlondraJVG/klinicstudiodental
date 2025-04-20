@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from datetime import datetime, date
-from sqlalchemy import and_
 from app import db
 from app.models.Paciente import Paciente
 
@@ -25,31 +24,20 @@ def lista_pacientes():
 
     return render_template('pacientes.html', pacientes=pacientes)
 
-
 @paciente_bp.route('/pacientes/nuevo', methods=['GET', 'POST'])
 def nuevo_paciente():
     if request.method == 'POST':
-        nombre = request.form['nombre'].strip().lower()
-        apellido = request.form['apellido'].strip().lower()
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
         fecha_nacimiento_str = request.form['fecha_nacimiento']
         fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, "%Y-%m-%d").date()
         edad = calcular_edad(fecha_nacimiento)
         sexo = request.form['sexo']
         tipo_sangre = request.form['tipo_sangre']
-        correo = request.form['correo'].strip().lower()
+        correo = request.form['correo']
         telefono = request.form['telefono']
         contacto_emergencia = request.form['contacto_emergencia']
         nombre_contacto = request.form['nombre_contacto']
-
-        paciente_existente = Paciente.query.filter_by(
-            nombre=nombre,
-            apellido=apellido,
-            correo=correo
-        ).first()
-
-        if paciente_existente:
-            flash('Ya existe un paciente con ese nombre, apellido y correo.', 'warning')
-            return redirect(url_for('paciente.nuevo_paciente'))
 
         nuevo = Paciente(
             nombre=nombre,
@@ -61,16 +49,15 @@ def nuevo_paciente():
             correo=correo,
             telefono=telefono,
             contacto_emergencia=contacto_emergencia,
-            nombre_contacto=nombre_contacto
+            nombre_contacto = nombre_contacto
+            
         )
-        try:
-            db.session.add(nuevo)
-            db.session.commit()
-            flash('Paciente creado exitosamente', 'success')
-        except IntegrityError:
-            db.session.rollback()
-            flash('Ya existe un paciente con ese nombre, apellido y correo.', 'danger')
-            return redirect(url_for('paciente.nuevo_paciente'))
+        db.session.add(nuevo)
+        db.session.commit()
+        flash('Paciente creado exitosamente')
+        return redirect(url_for('paciente.lista_pacientes'))
+    
+    return render_template('nuevo_paciente.html')
     
 
 @paciente_bp.route('/pacientes/editar/<int:id>', methods=['GET', 'POST'])
