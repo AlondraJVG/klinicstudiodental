@@ -196,7 +196,25 @@ tbody tr:hover {
 .transparente-tabla td {
     background-color: rgba(255, 255, 255, 0.1); 
 }
-/* Responsive en móvil */
+
+.btn-editar {
+    background-color: #0057b379; 
+    color: white;
+    border: none;
+}
+.btn-editar:hover {
+    background-color: #0057b379;  
+}
+
+.btn-eliminar {
+    background-color: #dc354679; 
+    color: white;
+    border: none;
+}
+
+.btn-eliminar:hover {
+    background-color: #dc354679;   
+}
 @media (max-width: 768px) {
 	th, td {
 		font-size: 13px;
@@ -208,4 +226,3 @@ tbody tr:hover {
 		padding: 6px 10px;
 	}
 }
-
