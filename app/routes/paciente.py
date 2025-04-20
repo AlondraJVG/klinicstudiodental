@@ -40,9 +40,9 @@ def nuevo_paciente():
         nombre_contacto = request.form['nombre_contacto']
 
         paciente_existente = Paciente.query.filter(
-        db.func.lower(Paciente.nombre) == nombre,
-        db.func.lower(Paciente.apellido) == apellido,
-        db.func.lower(Paciente.correo) == correo
+            Paciente.nombre.ilike(nombre),
+            Paciente.apellido.ilike(apellido),
+            Paciente.correo.ilike(correo)
         ).first()
 
         if paciente_existente:
