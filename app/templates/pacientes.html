@@ -8,7 +8,6 @@
         <h3 class="text-primary">Lista de Pacientes</h3>
         <a href="{{ url_for('paciente.nuevo_paciente') }}" class="btn btn-primary">+ Nuevo Paciente</a>
     </div>
-
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <ul>
