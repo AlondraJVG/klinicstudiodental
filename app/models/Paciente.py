@@ -15,5 +15,6 @@ class Paciente(db.Model):
     nombre_contacto = db.Column(db.String(100), nullable=False)
 
     __table_args__ = (
-        db.UniqueConstraint('nombre', 'apellido', name='uq_nombre_apellido'),
+    db.UniqueConstraint('nombre', 'apellido', 'correo', name='uq_nombre_apellido_correo'),
     )
+

@@ -41,12 +41,10 @@ def nuevo_paciente():
         contacto_emergencia = request.form['contacto_emergencia']
         nombre_contacto = request.form['nombre_contacto']
 
-        paciente_existente = Paciente.query.filter(
-            and_(
-                Paciente.nombre.ilike(nombre),
-                Paciente.apellido.ilike(apellido),
-                Paciente.correo.ilike(correo)
-            )
+        paciente_existente = Paciente.query.filter_by(
+            nombre=nombre,
+            apellido=apellido,
+            correo=correo
         ).first()
 
         if paciente_existente:
