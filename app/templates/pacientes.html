@@ -21,7 +21,10 @@
     </div>
     {% endif %}
     {% endwith %}
-
+    <form method="GET" action="{{ url_for('paciente.lista_pacientes') }}" class="mb-3 d-flex">
+        <input type="text" name="busqueda" class="form-control me-2" placeholder="Buscar paciente..." value="{{ request.args.get('busqueda', '') }}">
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+    </form>
     <div class="card shadow-lg rounded-4">
         <div class="card-body">
             {% if pacientes %}

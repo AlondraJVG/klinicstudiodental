@@ -12,7 +12,16 @@ def calcular_edad(fecha_nacimiento):
 
 @paciente_bp.route('/pacientes')
 def lista_pacientes():
-    pacientes = Paciente.query.all()
+    busqueda = request.args.get('busqueda', '')  
+    if busqueda:
+        pacientes = Paciente.query.filter(
+            (Paciente.nombre.ilike(f"%{busqueda}%")) |
+            (Paciente.apellido.ilike(f"%{busqueda}%")) |
+            (Paciente.correo.ilike(f"%{busqueda}%"))
+        ).all()
+    else:
+        pacientes = Paciente.query.all()
+
     return render_template('pacientes.html', pacientes=pacientes)
 
 @paciente_bp.route('/pacientes/nuevo', methods=['GET', 'POST'])
