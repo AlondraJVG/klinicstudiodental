@@ -57,10 +57,11 @@
                             <td>{{ paciente.nombre_contacto }}</td>
                             <td>
                                 <a href="{{ url_for('paciente.editar_paciente', id=paciente.id) }}"
-                                    class="btn btn-sm btn-warning mb-1">Editar</a>
+                                    class="btn btn-sm btn-editar mb-1">Editar</a>
+
                                 <form action="{{ url_for('paciente.eliminar_paciente', id=paciente.id) }}" method="POST"
                                     style="display:inline;">
-                                    <button type="submit" class="btn btn-sm btn-danger"
+                                    <button type="submit" class="btn btn-sm btn-eliminar"
                                         onclick="return confirm('¿Estás seguro de eliminar este paciente?')">Eliminar</button>
                                 </form>
                             </td>
@@ -73,6 +74,6 @@
             <p class="text-muted text-center">No hay pacientes registrados.</p>
             {% endif %}
         </div>
-    </div>    
+    </div>
 </div>
 {% endblock %}
