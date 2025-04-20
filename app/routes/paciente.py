@@ -38,9 +38,20 @@ def nuevo_paciente():
 
         # Buscar si ya existe un paciente con esos datos (ignorando mayúsculas/minúsculas)
         paciente_existente = Paciente.query.filter(
-            db.func.lower(Paciente.nombre) == nombre_lower,
-            db.func.lower(Paciente.apellido) == apellido_lower,
-            db.func.lower(Paciente.correo) == correo_lower
+            or_(
+                and_(
+                    db.func.lower(Paciente.correo) == correo_lower,
+                    db.func.lower(Paciente.apellido) == apellido_lower
+                ),
+                and_(
+                    db.func.lower(Paciente.nombre) == nombre_lower,
+                    db.func.lower(Paciente.apellido) == apellido_lower
+                ),
+                and_(
+                    db.func.lower(Paciente.correo) == correo_lower,
+                    db.func.lower(Paciente.nombre) == nombre_lower
+                )
+            )
         ).first()
 
         if paciente_existente:
