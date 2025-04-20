@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from datetime import datetime, date
+from sqlalchemy import and_
 from app import db
 from app.models.Paciente import Paciente
 
@@ -24,6 +25,7 @@ def lista_pacientes():
 
     return render_template('pacientes.html', pacientes=pacientes)
 
+
 @paciente_bp.route('/pacientes/nuevo', methods=['GET', 'POST'])
 def nuevo_paciente():
     if request.method == 'POST':
@@ -40,9 +42,11 @@ def nuevo_paciente():
         nombre_contacto = request.form['nombre_contacto']
 
         paciente_existente = Paciente.query.filter(
-            Paciente.nombre.ilike(nombre),
-            Paciente.apellido.ilike(apellido),
-            Paciente.correo.ilike(correo)
+            and_(
+                Paciente.nombre.ilike(nombre),
+                Paciente.apellido.ilike(apellido),
+                Paciente.correo.ilike(correo)
+            )
         ).first()
 
         if paciente_existente:
@@ -59,14 +63,14 @@ def nuevo_paciente():
             correo=correo,
             telefono=telefono,
             contacto_emergencia=contacto_emergencia,
-            nombre_contacto = nombre_contacto
-            
+            nombre_contacto=nombre_contacto
         )
+
         db.session.add(nuevo)
         db.session.commit()
-        flash('Paciente creado exitosamente')
+        flash('Paciente creado exitosamente', 'success')
         return redirect(url_for('paciente.lista_pacientes'))
-    
+
     return render_template('nuevo_paciente.html')
     
 
