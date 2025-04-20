@@ -27,38 +27,44 @@ def lista_pacientes():
 @paciente_bp.route('/pacientes/nuevo', methods=['GET', 'POST'])
 def nuevo_paciente():
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        apellido = request.form['apellido']
+        nombre = request.form['nombre'].strip()
+        apellido = request.form['apellido'].strip()
+        correo = request.form['correo'].strip()
+
+        # Convertir a minúsculas para comparar
+        nombre_lower = nombre.lower()
+        apellido_lower = apellido.lower()
+        correo_lower = correo.lower()
+
+        # Buscar si ya existe un paciente con esos datos (ignorando mayúsculas/minúsculas)
+        paciente_existente = Paciente.query.filter(
+            db.func.lower(Paciente.nombre) == nombre_lower,
+            db.func.lower(Paciente.apellido) == apellido_lower,
+            db.func.lower(Paciente.correo) == correo_lower
+        ).first()
+
+        if paciente_existente:
+            flash('Ya existe un paciente con ese nombre, apellido y correo.', 'error')
+            return render_template('nuevo_paciente.html', form_data=request.form)
+
+        # Procesar el resto de datos
         fecha_nacimiento_str = request.form['fecha_nacimiento']
         fecha_nacimiento = datetime.strptime(fecha_nacimiento_str, "%Y-%m-%d").date()
         edad = calcular_edad(fecha_nacimiento)
         sexo = request.form['sexo']
         tipo_sangre = request.form['tipo_sangre']
-        correo = request.form['correo']
         telefono = request.form['telefono']
         contacto_emergencia = request.form['contacto_emergencia']
         nombre_contacto = request.form['nombre_contacto']
 
-        # Verificar si ya existe un paciente con el mismo nombre, apellido y correo
-        paciente_existente = Paciente.query.filter_by(
-            nombre=nombre,
-            apellido=apellido,
-            correo=correo
-        ).first()
-
-        if paciente_existente:
-            flash('Ya existe un paciente con ese nombre, apellido y correo.', 'error')
-            return render_template('nuevo_paciente.html')  # Puedes mandar también los datos ya ingresados si quieres
-
-        # Si no existe, crear el nuevo paciente
         nuevo = Paciente(
-            nombre=nombre,
-            apellido=apellido,
+            nombre=nombre_lower,
+            apellido=apellido_lower,
             fecha_nacimiento=fecha_nacimiento,
             edad=edad,
             sexo=sexo,
             tipo_sangre=tipo_sangre,
-            correo=correo,
+            correo=correo_lower,
             telefono=telefono,
             contacto_emergencia=contacto_emergencia,
             nombre_contacto=nombre_contacto
@@ -69,6 +75,7 @@ def nuevo_paciente():
         return redirect(url_for('paciente.lista_pacientes'))
     
     return render_template('nuevo_paciente.html')
+
     
 
 @paciente_bp.route('/pacientes/editar/<int:id>', methods=['GET', 'POST'])
