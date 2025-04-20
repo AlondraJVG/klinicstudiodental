@@ -63,13 +63,14 @@ def nuevo_paciente():
             contacto_emergencia=contacto_emergencia,
             nombre_contacto=nombre_contacto
         )
-
-        db.session.add(nuevo)
-        db.session.commit()
-        flash('Paciente creado exitosamente', 'success')
-        return redirect(url_for('paciente.lista_pacientes'))
-
-    return render_template('nuevo_paciente.html')
+        try:
+            db.session.add(nuevo)
+            db.session.commit()
+            flash('Paciente creado exitosamente', 'success')
+        except IntegrityError:
+            db.session.rollback()
+            flash('Ya existe un paciente con ese nombre, apellido y correo.', 'danger')
+            return redirect(url_for('paciente.nuevo_paciente'))
     
 
 @paciente_bp.route('/pacientes/editar/<int:id>', methods=['GET', 'POST'])
