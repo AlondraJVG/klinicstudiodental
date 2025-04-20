@@ -116,6 +116,7 @@ body {
         padding-top: 60px;
     }
 }
+/*stilos de tablas */
 
 .login--image {
 	position: fixed;
@@ -154,6 +155,25 @@ table {
 	border-radius: 12px;
 	overflow: hidden;
 }
+
+.table {
+    font-size: 12px; 
+    width: auto; 
+}
+
+.table th, .table td {
+    padding: 4px 8px; 
+}
+
+
+.table tbody tr {
+    height: 30px; 
+}
+
+.table th, .table td {
+    white-space: nowrap; 
+}
+
 
 thead th {
 	background-color: rgba(85, 96, 143, 0.9);
