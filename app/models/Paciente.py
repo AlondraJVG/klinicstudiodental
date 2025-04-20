@@ -9,8 +9,11 @@ class Paciente(db.Model):
     edad = db.Column(db.Integer, nullable=False)
     sexo = db.Column(db.String(20), nullable=False)
     tipo_sangre = db.Column(db.String(10), nullable=False)
-    correo = db.Column(db.String(100), nullable=False)
+    correo = db.Column(db.String(100), unique=True)
     telefono = db.Column(db.String(20), nullable=False)
     contacto_emergencia  = db.Column(db.String(20), nullable=False)
     nombre_contacto = db.Column(db.String(100), nullable=False)
-    
+
+    __table_args__ = (
+        db.UniqueConstraint('nombre', 'apellido', name='uq_nombre_apellido'),
+    )
