@@ -39,6 +39,18 @@ def nuevo_paciente():
         contacto_emergencia = request.form['contacto_emergencia']
         nombre_contacto = request.form['nombre_contacto']
 
+        # Verificar si ya existe un paciente con el mismo nombre, apellido y correo
+        paciente_existente = Paciente.query.filter_by(
+            nombre=nombre,
+            apellido=apellido,
+            correo=correo
+        ).first()
+
+        if paciente_existente:
+            flash('Ya existe un paciente con ese nombre, apellido y correo.', 'error')
+            return render_template('nuevo_paciente.html')  # Puedes mandar también los datos ya ingresados si quieres
+
+        # Si no existe, crear el nuevo paciente
         nuevo = Paciente(
             nombre=nombre,
             apellido=apellido,
@@ -49,12 +61,11 @@ def nuevo_paciente():
             correo=correo,
             telefono=telefono,
             contacto_emergencia=contacto_emergencia,
-            nombre_contacto = nombre_contacto
-            
+            nombre_contacto=nombre_contacto
         )
         db.session.add(nuevo)
         db.session.commit()
-        flash('Paciente creado exitosamente')
+        flash('Paciente creado exitosamente', 'success')
         return redirect(url_for('paciente.lista_pacientes'))
     
     return render_template('nuevo_paciente.html')
