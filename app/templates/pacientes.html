@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <img src="{{ url_for('static', filename='imagenes/fondo_login.jpg') }}" alt="Background" class="login--image">
 <div class="container-fluid mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -26,7 +27,7 @@
         <div class="card-body">
             {% if pacientes %}
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-center">
+                <table class="table table-bordered table-hover align-middle text-center transparente-tabla">
                     <thead class="table-primary">
                         <tr>
                             <th>ID</th>
@@ -73,6 +74,6 @@
             <p class="text-muted text-center">No hay pacientes registrados.</p>
             {% endif %}
         </div>
-    </div>
+    </div>    
 </div>
 {% endblock %}
