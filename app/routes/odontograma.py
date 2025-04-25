@@ -22,7 +22,7 @@ def crear_odontograma(paciente_id):
     if request.method == 'POST':
         nuevo_odontograma = Odontograma(
             paciente_id=paciente.id,
-            fecha=datetime.now().date()
+            fecha_creacion=datetime.now().date()
         )
         db.session.add(nuevo_odontograma)
         db.session.commit()
