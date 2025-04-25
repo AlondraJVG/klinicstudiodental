@@ -29,7 +29,7 @@ def crear_odontograma(paciente_id):
         flash('Odontograma creado exitosamente.', 'success')
         return redirect(url_for('odontograma.ver_odontograma', paciente_id=paciente.id))
     
-    return render_template('crear_odontograma.html', paciente=paciente)
+    return render_template('odontograma/crear_odontograma.html', paciente=paciente)
 
 @odontograma_bp.route('/odontograma/<int:paciente_id>')
 def ver_odontograma(paciente_id):
