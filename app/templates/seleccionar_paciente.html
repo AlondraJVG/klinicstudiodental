@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Seleccionar Paciente</title>
+</head>
+<body>
+    <h2>Seleccionar Paciente para Odontograma</h2>
+
+    <form method="get" action="{{ url_for('odontograma.crear_odontograma', paciente_id=0) }}" id="form-crear">
+        <label for="paciente">Paciente:</label>
+        <select name="paciente_id" id="crear_paciente">
+            {% for paciente in pacientes %}
+                <option value="{{ paciente.id }}">{{ paciente.nombre }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Crear Odontograma</button>
+    </form>
+
+    <form method="get" action="{{ url_for('odontograma.ver_odontograma', paciente_id=0) }}" id="form-ver">
+        <label for="paciente">Paciente:</label>
+        <select name="paciente_id" id="ver_paciente">
+            {% for paciente in pacientes %}
+                <option value="{{ paciente.id }}">{{ paciente.nombre }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Ver Odontograma</button>
+    </form>
+
+    <script>
+        // Redirige con paciente_id dinámico
+        document.getElementById('form-crear').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('crear_paciente').value;
+            window.location.href = `/odontograma/crear/${id}`;
+        });
+
+        document.getElementById('form-ver').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const id = document.getElementById('ver_paciente').value;
+            window.location.href = `/odontograma/${id}`;
+        });
+    </script>
+</body>
+</html>

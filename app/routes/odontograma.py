@@ -9,6 +9,12 @@ from app.models.CondicionesPorDiente import CondicionesPorDiente
 
 odontograma_bp = Blueprint('odontograma', __name__, template_folder='templates')
 
+@odontograma_bp.route('/odontograma/seleccionar', methods=['GET'])
+def seleccionar_paciente():
+    pacientes = Paciente.query.all()
+    return render_template('seleccionar_paciente.html', pacientes=pacientes)
+
+
 @odontograma_bp.route('/odontograma/crear/<int:paciente_id>', methods=['GET', 'POST'])
 def crear_odontograma(paciente_id):
     paciente = Paciente.query.get_or_404(paciente_id)

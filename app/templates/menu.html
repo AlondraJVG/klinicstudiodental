@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesMenu.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
     <ul class="menu-lateral">
         <li><a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+        <li><a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+
         <li class="submenu">
             <a href="#" class="submenu-toggle">
                 <i class="fas fa-tooth"></i>
@@ -19,11 +23,9 @@
             <ul class="submenu-items">
                 <li><a href="{{ url_for('odontograma.crear_odontograma', paciente_id=1) }}">Crear Odontograma</a></li>
                 <li><a href="{{ url_for('odontograma.ver_odontograma', paciente_id=1) }}">Ver Odontograma</a></li>
+                <li><a href="{{ url_for('odontograma.seleccionar_paciente') }}">Seleccionar Paciente</a></li>
             </ul>
         </li>
-        <li><a href="#"><i class="fas fa-image"></i><span>Images</span></a></li>
-        <li><a href="#"><i class="fas fa-file-alt"></i><span>Files</span></a></li>
-        <li><a href="#"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
 
         <li class="submenu">
             <a href="#" class="submenu-toggle">
@@ -36,6 +38,10 @@
                 <li><a href="{{ url_for('paciente.nuevo_paciente') }}">Nuevo Paciente</a></li>
             </ul>
         </li>
+        <li><a href="#"><i class="fas fa-image"></i><span>Images</span></a></li>
+        <li><a href="#"><i class="fas fa-file-alt"></i><span>Files</span></a></li>
+        <li><a href="#"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
+
 
         <li><a href="#"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
         <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
@@ -43,22 +49,27 @@
     </ul>
 
     <script>
-        // Script para mostrar submenu al hacer clic
         document.addEventListener("DOMContentLoaded", function () {
-            const submenuToggle = document.querySelector(".submenu .submenu-toggle");
-            const submenuItems = document.querySelector(".submenu .submenu-items");
+            const toggles = document.querySelectorAll(".submenu-toggle");
 
-            submenuToggle.addEventListener("click", function (e) {
-                e.preventDefault();
-                submenuItems.classList.toggle("active");
+            toggles.forEach(toggle => {
+                toggle.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const parent = toggle.closest(".submenu");
+                    const submenuItems = parent.querySelector(".submenu-items");
+                    submenuItems.classList.toggle("active");
+                });
             });
 
             document.addEventListener("click", function (e) {
-                if (!document.querySelector(".submenu").contains(e.target)) {
-                    submenuItems.classList.remove("active");
-                }
+                document.querySelectorAll(".submenu").forEach(sub => {
+                    if (!sub.contains(e.target)) {
+                        sub.querySelector(".submenu-items").classList.remove("active");
+                    }
+                });
             });
         });
     </script>
 </body>
+
 </html>
