@@ -13,8 +13,12 @@ def create_app():
     # Importar y registrar las rutas
     from app.routes.auth import auth_bp
     from app.routes.paciente import paciente_bp
+    from app.routes.odontograma import odontograma_bp
+    from app.routes.diente import diente_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(paciente_bp)
+    app.register_blueprint(odontograma_bp)
+    app.register_blueprint(diente_bp)
 
     return app
