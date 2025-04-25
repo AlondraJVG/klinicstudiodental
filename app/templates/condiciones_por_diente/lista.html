@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Condiciones por Diente{% endblock %}
+
+{% block content %}
+    <h2>Condiciones por Diente</h2>
+    <a href="{{ url_for('condiciones_por_diente.nueva_condicion_por_diente') }}">Agregar nueva condición por diente</a>
+    <ul>
+        {% for condicion_diente in condiciones_dientes %}
+            <li>{{ condicion_diente.diente.numero_diente }} - {{ condicion_diente.condicion.nombre }} - {{ condicion_diente.descripcion }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

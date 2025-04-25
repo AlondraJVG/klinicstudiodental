@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Condiciones Dentales{% endblock %}
+
+{% block content %}
+    <h2>Condiciones Dentales</h2>
+    <a href="{{ url_for('condicion.nueva_condicion') }}">Agregar nueva condición dental</a>
+    <ul>
+        {% for condicion in condiciones %}
+            <li>{{ condicion.nombre }} - {{ condicion.descripcion }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

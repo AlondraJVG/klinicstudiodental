@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Odontograma de {{ paciente.nombre }} {{ paciente.apellido }}</h2>
+
+<div class="row row-cols-8 g-3 text-center">
+    {% for diente in dientes %}
+    <div class="col">
+        {% if diente.condicion %}
+        <div class="text-danger small mb-1">
+            {{ diente.condicion.nombre }}
+        </div>
+        {% else %}
+        <div class="text-muted small mb-1">Sin condición</div>
+        {% endif %}
+
+        <button 
+            type="button" 
+            class="btn {% if diente.condicion %}btn-danger{% else %}btn-outline-secondary{% endif %} w-100" 
+            data-bs-toggle="modal" 
+            data-bs-target="#modalCondicion" 
+            data-diente="{{ diente.id }}" 
+            data-numero="{{ diente.numero }}"
+        >
+            {{ diente.numero }}
+        </button>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCondicion" tabindex="-1" aria-labelledby="modalCondicionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST" action="{{ url_for('odontograma.asignar_condicion') }}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Asignar condición al diente <span id="dienteNumeroModal"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="odontograma_id" value="{{ odontograma.id }}">
+                <input type="hidden" name="diente_id" id="diente_id_modal">
+
+                <div class="mb-3">
+                    <label for="condicion_id" class="form-label">Condición</label>
+                    <select name="condicion_id" class="form-select" required>
+                        {% for condicion in condiciones %}
+                        <option value="{{ condicion.id }}">{{ condicion.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="comentarios" class="form-label">Comentarios</label>
+                    <textarea name="comentarios" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+<script>
+    const modal = document.getElementById('modalCondicion');
+    modal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        const dienteId = button.getAttribute('data-diente');
+        const dienteNumero = button.getAttribute('data-numero');
+
+        document.getElementById('diente_id_modal').value = dienteId;
+        document.getElementById('dienteNumeroModal').textContent = dienteNumero;
+    });
+</script>
+{% endblock %}
