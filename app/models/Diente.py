@@ -1,7 +1,7 @@
 from app import db
 
 class Diente(db.Model):
-    __tablename__ = 'dientes'
+    __tablename__ = 'Dientes'
 
     id = db.Column(db.Integer, primary_key=True)
     numero_diente = db.Column(db.Integer, nullable=False)
