@@ -10,6 +10,17 @@
 <body>
     <ul class="menu-lateral">
         <li><a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+        <li class="submenu">
+            <a href="#" class="submenu-toggle">
+                <i class="fas fa-tooth"></i>
+                <span>Odontograma</span>
+                <i class="fas fa-chevron-down flecha"></i>
+            </a>
+            <ul class="submenu-items">
+                <li><a href="{{ url_for('odontograma.crear_odontograma', paciente_id=1) }}">Crear Odontograma</a></li>
+                <li><a href="{{ url_for('odontograma.ver_odontograma', paciente_id=1) }}">Ver Odontograma</a></li>
+            </ul>
+        </li>
         <li><a href="#"><i class="fas fa-image"></i><span>Images</span></a></li>
         <li><a href="#"><i class="fas fa-file-alt"></i><span>Files</span></a></li>
         <li><a href="#"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
