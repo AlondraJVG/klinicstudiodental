@@ -7,3 +7,5 @@ class CondicionesDentales(db.Model):
     descripcion = db.Column(db.Text)
 
 
+
+
