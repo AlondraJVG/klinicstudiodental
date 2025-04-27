@@ -17,7 +17,7 @@ def listar_citas():
         ).all()
     else:
         citas = Cita.query.all()
-    return render_template('listar_citas.html', citas=citas)
+    return render_template('citas/listar_citas.html', citas=citas)
 
 # Crear nueva cita
 @citas_bp.route('/nueva', methods=['GET', 'POST'])
@@ -50,7 +50,7 @@ def crear_cita():
         flash('Cita creada exitosamente.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
-    return render_template('crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
+    return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
 
 # Editar cita
 @citas_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
@@ -72,7 +72,7 @@ def editar_cita(id):
         flash('Cita actualizada correctamente.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
-    return render_template('editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+    return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
 # Eliminar cita
 @citas_bp.route('/eliminar/<int:id>', methods=['POST'])
