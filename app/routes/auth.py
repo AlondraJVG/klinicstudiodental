@@ -3,7 +3,7 @@ from app import db
 from app.models.usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
+from app.models.Citas import Cita
 # Se mantiene el Blueprint
 auth_bp = Blueprint('auth', __name__)
 
@@ -51,3 +51,8 @@ def register():
         return 'Usuario creado con éxito'
 
     return render_template('register.html')
+
+@app.route('/menu')
+def menu():
+    citas = Cita.query.all()  
+    return render_template('menu.html', citas=citas)

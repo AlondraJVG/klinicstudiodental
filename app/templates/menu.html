@@ -12,18 +12,13 @@
 <body>
     <ul class="menu-lateral">
         <li><a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
-        <li class="submenu">
-            <a href="#" class="submenu-toggle">
-                <i class="fas fa-tooth"></i>
-                <span>Citas</span>
-                <i class="fas fa-chevron-down flecha"></i>
-            </a>
-            <ul class="submenu-items">
-                <li><a href="{{ url_for('citas.crear_cita') }}">Crear Cita</a></li>
-                <li><a href="{{ url_for('citas.editar_cita', id=cita.id) }}">editar_cita</a></li>
-                <li><a href="{{ url_for('citas.listar_citas') }}">Ver citas</a></li>
-            </ul>
-        </li>
+        <ul class="submenu-items">
+            <li><a href="{{ url_for('citas.crear_cita') }}">Crear Cita</a></li>
+            {% for cita in citas %}
+                <li><a href="{{ url_for('citas.editar_cita', id=cita.id) }}">Editar Cita</a></li>
+            {% endfor %}
+            <li><a href="{{ url_for('citas.listar_citas') }}">Ver citas</a></li>
+        </ul>
 
         <li class="submenu">
             <a href="#" class="submenu-toggle">
