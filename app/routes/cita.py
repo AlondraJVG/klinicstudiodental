@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
-from app.models import Cita, Paciente, Tratamiento
+from app.models.Citas import Cita, Paciente, Tratamiento
 from datetime import datetime
 
 citas_bp = Blueprint('citas', __name__, url_prefix='/citas')
