@@ -7,7 +7,7 @@ from app.models.Paciente import Paciente
 class Cita(db.Model):
     __tablename__ = 'citas'
     id = db.Column(db.Integer, primary_key=True)
-    paciente_id = db.Column(db.Integer, db.ForeignKey('Pacientes.id'))
+    paciente_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'))
     tratamiento_id = db.Column(db.Integer, db.ForeignKey('tratamientos.id'), nullable=True)
     fecha = db.Column(db.Date)
     hora = db.Column(db.Time)
