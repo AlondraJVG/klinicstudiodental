@@ -7,7 +7,7 @@ from datetime import datetime
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 # Mostrar todas las citas
-@citas_bp.route('/')
+@cita_bp.route('/')
 def listar_citas():
     busqueda = request.args.get('busqueda', '')
     if busqueda:
@@ -19,7 +19,7 @@ def listar_citas():
     return render_template('citas/listar_citas.html', citas=citas)
 
 # Crear nueva cita
-@citas_bp.route('/nueva', methods=['GET', 'POST'])
+@cita_bp.route('/nueva', methods=['GET', 'POST'])
 def crear_cita():
     pacientes = Paciente.query.all()
     tratamientos = Tratamiento.query.all()
@@ -52,7 +52,7 @@ def crear_cita():
     return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
 
 # Editar cita
-@citas_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
+@cita_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar_cita(id):
     cita = Cita.query.get_or_404(id)
     pacientes = Paciente.query.all()
@@ -74,7 +74,7 @@ def editar_cita(id):
     return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
 # Eliminar cita
-@citas_bp.route('/eliminar/<int:id>', methods=['POST'])
+@cita_bp.route('/eliminar/<int:id>', methods=['POST'])
 def eliminar_cita(id):
     cita = Cita.query.get_or_404(id)
     db.session.delete(cita)
