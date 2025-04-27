@@ -16,13 +16,8 @@ class Diente(db.Model):
 class CondicionesPorDiente(db.Model):
     __tablename__ = 'condiciones_por_diente'
     id = db.Column(db.Integer, primary_key=True)
-    odontograma_id = db.Column(db.Integer, db.ForeignKey('odontogramas.id'))
     diente_id = db.Column(db.Integer, db.ForeignKey('dientes.id'))
-    condicion_id = db.Column(db.Integer, db.ForeignKey('condiciones_dentales.id'))
-    fecha_diagnostico = db.Column(db.Date)
-    comentarios = db.Column(db.Text)
+    condicion = db.Column(db.String(255))
 
-    # Relaciones
-    diente = db.relationship('Diente', backref='condiciones_dentales')
-    condicion = db.relationship('CondicionesDentales', backref='condiciones_por_diente')
-    odontograma = db.relationship('Odontograma', backref='condiciones_por_diente')
+    diente = db.relationship('Diente', backref='condiciones')
+
