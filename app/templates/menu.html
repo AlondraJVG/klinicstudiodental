@@ -20,7 +20,7 @@
             </a>
             <ul class="submenu-items">
                 <li><a href="{{ url_for('citas.crear_cita') }}">Crear Cita</a></li>
-                <li><a href="{{ url_for('citas.editar_cita') }}">editar_cita</a></li>
+                <li><a href="{{ url_for('citas.editar_cita', id=cita.id) }}">editar_cita</a></li>
                 <li><a href="{{ url_for('citas.listar_citas') }}">Ver citas</a></li>
             </ul>
         </li>
