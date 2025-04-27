@@ -1,5 +1,8 @@
 # app/models/Citas.py
 from app import db
+from app.models.Paciente import Paciente
+
+
 
 class Cita(db.Model):
     __tablename__ = 'citas'
