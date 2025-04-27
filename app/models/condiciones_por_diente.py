@@ -1,5 +1,5 @@
+# app/models/condiciones_por_diente.py
 from app import db
-
 
 class CondicionesPorDiente(db.Model):
     __tablename__ = 'condiciones_por_diente'

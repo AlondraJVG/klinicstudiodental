@@ -8,7 +8,6 @@ from app.models.CondicionesDentales import CondicionesDentales
 from app.models.condiciones_por_diente import CondicionesPorDiente
 
 
-
 odontograma_bp = Blueprint('odontograma', __name__, template_folder='templates')
 
 @odontograma_bp.route('/odontograma/seleccionar', methods=['GET'])
