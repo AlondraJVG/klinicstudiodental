@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
-from app.models.CondicionesPorDiente import CondicionesPorDiente
+from app.models.condiciones_por_diente import CondicionesPorDiente
 from app.models.Diente import Diente
 from app.models.CondicionesDentales import CondicionesDentales
 

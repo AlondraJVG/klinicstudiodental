@@ -5,7 +5,9 @@ from app.models.Odontograma import Odontograma
 from app.models.Paciente import Paciente
 from app.models.Diente import Diente
 from app.models.CondicionesDentales import CondicionesDentales
-from app.models.CondicionesPorDiente import CondicionesPorDiente
+from app.models.condiciones_por_diente import CondicionesPorDiente
+
+
 
 odontograma_bp = Blueprint('odontograma', __name__, template_folder='templates')
 
