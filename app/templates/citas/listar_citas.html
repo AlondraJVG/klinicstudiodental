@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<img src="{{ url_for('static', filename='imagenes/fondo_login.jpg') }}" alt="Background" class="login--image">
+
+<div class="container-fluid mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary">Lista de Citas</h3>
+        <a href="{{ url_for('citas.crear_cita') }}" class="btn btn-primary">+ Nueva Cita</a>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="GET" action="{{ url_for('citas.listar_citas') }}" class="mb-3 d-flex">
+        <input type="text" name="busqueda" class="form-control me-2" placeholder="Buscar cita por paciente..." value="{{ request.args.get('busqueda', '') }}">
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+    </form>
+
+    <div class="card shadow-lg rounded-4">
+        <div class="card-body">
+            {% if citas %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-center transparente-tabla">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>ID</th>
+                            <th>Paciente</th>
+                            <th>Tratamiento</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Motivo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cita in citas %}
+                        <tr>
+                            <td>{{ cita.id }}</td>
+                            <td>{{ cita.paciente.nombre }} {{ cita.paciente.apellido }}</td>
+                            <td>{{ cita.tratamiento.nombre if cita.tratamiento else 'N/A' }}</td>
+                            <td>{{ cita.fecha.strftime('%d/%m/%Y') }}</td>
+                            <td>{{ cita.hora.strftime('%H:%M') }}</td>
+                            <td>{{ cita.motivo }}</td>
+                            <td>{{ cita.estado }}</td>
+                            <td>
+                                <a href="{{ url_for('citas.editar_cita', id=cita.id) }}" class="btn btn-sm btn-editar mb-1">Editar</a>
+
+                                <form action="{{ url_for('citas.eliminar_cita', id=cita.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-eliminar"
+                                        onclick="return confirm('¿Estás seguro de eliminar esta cita?')">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center">No hay citas registradas.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -17,12 +17,14 @@ def create_app():
     from app.routes.diente import diente_bp
     from app.routes.condiciones_dentales import condicion_bp
     from app.routes.condiciones_por_diente import condiciones_por_diente_bp
+    from app.routes.cita import citas_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(paciente_bp)
     app.register_blueprint(odontograma_bp)
     app.register_blueprint(diente_bp)
     app.register_blueprint(condicion_bp)
-    app .register_blueprint(condiciones_por_diente_bp)
+    app.register_blueprint(condiciones_por_diente_bp)
+    app.register_blueprint(citas_bp)
 
     return app

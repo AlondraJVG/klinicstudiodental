@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<img src="{{ url_for('static', filename='imagenes/fondo_login.jpg') }}" alt="Background" class="login--image">
+
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4">
+        <div class="card-body">
+            <h3 class="text-primary mb-4">Editar Cita</h3>
+
+            <form method="POST">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="paciente_id" class="form-label">Paciente</label>
+                        <select name="paciente_id" id="paciente_id" class="form-select" required>
+                            {% for paciente in pacientes %}
+                                <option value="{{ paciente.id }}" {% if paciente.id == cita.paciente_id %}selected{% endif %}>
+                                    {{ paciente.nombre }} {{ paciente.apellido }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="tratamiento_id" class="form-label">Tratamiento</label>
+                        <select name="tratamiento_id" id="tratamiento_id" class="form-select">
+                            <option value="">-- Sin tratamiento asignado --</option>
+                            {% for tratamiento in tratamientos %}
+                                <option value="{{ tratamiento.id }}" {% if tratamiento.id == cita.tratamiento_id %}selected{% endif %}>
+                                    {{ tratamiento.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" name="fecha" id="fecha" class="form-control" value="{{ cita.fecha }}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="hora" class="form-label">Hora</label>
+                        <input type="time" name="hora" id="hora" class="form-control" value="{{ cita.hora.strftime('%H:%M') }}" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="motivo" class="form-label">Motivo</label>
+                    <input type="text" name="motivo" id="motivo" class="form-control" value="{{ cita.motivo }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="notas" class="form-label">Notas adicionales</label>
+                    <textarea name="notas" id="notas" class="form-control" rows="3">{{ cita.notas }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="estado" class="form-label">Estado</label>
+                    <select name="estado" id="estado" class="form-select" required>
+                        <option value="Programada" {% if cita.estado == 'Programada' %}selected{% endif %}>Programada</option>
+                        <option value="Completada" {% if cita.estado == 'Completada' %}selected{% endif %}>Completada</option>
+                        <option value="Cancelada" {% if cita.estado == 'Cancelada' %}selected{% endif %}>Cancelada</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <a href="{{ url_for('citas.listar_citas') }}" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,7 +12,18 @@
 <body>
     <ul class="menu-lateral">
         <li><a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
-        <li><a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+        <li class="submenu">
+            <a href="#" class="submenu-toggle">
+                <i class="fas fa-tooth"></i>
+                <span>Citas</span>
+                <i class="fas fa-chevron-down flecha"></i>
+            </a>
+            <ul class="submenu-items">
+                <li><a href="{{ url_for('cita.crear_cita') }}">Crear Cita</a></li>
+                <li><a href="{{ url_for('cita.editar_cita') }}">editar_cita</a></li>
+                <li><a href="{{ url_for('cita.listar_citas') }}">Ver citas</a></li>
+            </ul>
+        </li>
 
         <li class="submenu">
             <a href="#" class="submenu-toggle">
