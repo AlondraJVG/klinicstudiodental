@@ -5,8 +5,7 @@ from app.models.Citas import Cita
 from app.models.Tratamiento import Tratamiento 
 from datetime import datetime
 
-citas_bp = Blueprint('citas', __name__, url_prefix='/citas')
-
+cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 # Mostrar todas las citas
 @citas_bp.route('/')
 def listar_citas():
