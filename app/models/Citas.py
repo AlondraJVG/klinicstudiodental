@@ -15,5 +15,5 @@ class Cita(db.Model):
     notas = db.Column(db.String(255))
     estado = db.Column(db.String(50))
 
-    paciente = db.relationship('Pacientes', backref='citas')
+    paciente = db.relationship('Paciente', backref='citas')
     tratamiento = db.relationship('Tratamiento', backref='citas')
