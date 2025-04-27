@@ -47,7 +47,7 @@ def crear_cita():
         db.session.commit()
 
         flash('Cita creada exitosamente.', 'success')
-        return redirect(url_for('citas.listar_citas'))
+        return redirect(url_for('citas/listar_citas'))
 
     return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
 
@@ -69,7 +69,7 @@ def editar_cita(id):
 
         db.session.commit()
         flash('Cita actualizada correctamente.', 'success')
-        return redirect(url_for('citas.listar_citas'))
+        return redirect(url_for('citas/listar_citas'))
 
     return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
@@ -80,4 +80,4 @@ def eliminar_cita(id):
     db.session.delete(cita)
     db.session.commit()
     flash('Cita eliminada exitosamente.', 'success')
-    return redirect(url_for('citas.listar_citas'))
+    return redirect(url_for('citas/listar_citas'))
