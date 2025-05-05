@@ -69,16 +69,29 @@ def crear_cita():
         db.session.add(nueva_cita)
         db.session.commit()
 
-        flash('Cita creada exitosamente.', 'success')
+        # Obtener datos del paciente
+        paciente = Paciente.query.get(paciente_id)
+
+        # Componer el correo
+        destinatario = paciente.email
+        asunto = "Confirmación de cita"
+        cuerpo = f"""Hola {paciente.nombre},
+
+        Tu cita ha sido programada para el día {fecha.strftime('%d/%m/%Y')} a las {hora.strftime('%H:%M')}.
+
+        Motivo: {motivo}
+        Notas: {notas or 'Ninguna'}
+
+        Gracias por elegirnos.
+        """
+
+        # Enviar el correo
+        from app.utils.email import enviar_correo  # Ajusta la ruta según dónde tengas tu función
+        enviar_correo(destinatario, asunto, cuerpo)
+
+        flash('Cita creada exitosamente y correo enviado.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
-    return render_template(
-    'citas/crear_cita.html',
-    pacientes=pacientes,
-    tratamientos=tratamientos,
-    current_date=date.today().isoformat(),
-    current_time=datetime.now().strftime('%H:%M')  
-)
 
 # Editar cita
 @cita_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
