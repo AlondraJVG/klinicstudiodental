@@ -40,22 +40,26 @@ def crear_cita():
         datetime_cita = datetime.combine(fecha, hora)
         ahora = datetime.now()
 
-        # Validaciones
+        # Validación: no puede estar en el pasado
         if datetime_cita < ahora:
             flash('No puedes crear una cita en el pasado.', 'danger')
-            return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
+            return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
+                                   current_date=date.today().isoformat(),
+                                   current_time=datetime.now().strftime('%H:%M'))
 
-        # Obtener todas las citas para ese día
+        # Validación: margen de 15 minutos con otras citas
         citas_dia = Cita.query.filter_by(fecha=fecha).all()
         for cita in citas_dia:
             cita_datetime = datetime.combine(cita.fecha, cita.hora)
             diferencia = abs((datetime_cita - cita_datetime).total_seconds()) / 60
 
             if diferencia < 15:
-                flash(f'Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
-                return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
+                flash('Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
+                return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
+                                       current_date=date.today().isoformat(),
+                                       current_time=datetime.now().strftime('%H:%M'))
 
-        # Crear la cita 
+        # Crear y guardar la cita
         nueva_cita = Cita(
             paciente_id=paciente_id,
             tratamiento_id=tratamiento_id,
@@ -72,26 +76,32 @@ def crear_cita():
         # Obtener datos del paciente
         paciente = Paciente.query.get(paciente_id)
 
-        # Componer el correo
+        # Componer y enviar correo
         destinatario = paciente.email
         asunto = "Confirmación de cita"
         cuerpo = f"""Hola {paciente.nombre},
 
-        Tu cita ha sido programada para el día {fecha.strftime('%d/%m/%Y')} a las {hora.strftime('%H:%M')}.
+Tu cita ha sido programada para el día {fecha.strftime('%d/%m/%Y')} a las {hora.strftime('%H:%M')}.
 
-        Motivo: {motivo}
-        Notas: {notas or 'Ninguna'}
+Motivo: {motivo}
+Notas: {notas or 'Ninguna'}
 
-        Gracias por elegirnos.
-        """
-
-        # Enviar el correo
-        from app.utils.email import enviar_correo  # Ajusta la ruta según dónde tengas tu función
+Gracias por elegirnos.
+"""
+        from app.utils.email import enviar_correo  # Ajusta si está en otro lado
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita creada exitosamente y correo enviado.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
+    # Si el método es GET, mostrar formulario
+    return render_template(
+        'citas/crear_cita.html',
+        pacientes=pacientes,
+        tratamientos=tratamientos,
+        current_date=date.today().isoformat(),
+        current_time=datetime.now().strftime('%H:%M')
+    )
 
 # Editar cita
 @cita_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
