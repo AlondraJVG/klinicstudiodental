@@ -77,7 +77,7 @@ def crear_cita():
         paciente = Paciente.query.get(paciente_id)
 
         # Componer y enviar correo
-        destinatario = paciente.email
+        destinatario = paciente.correo
         asunto = "Confirmación de cita"
         cuerpo = f"""Hola {paciente.nombre},
 
@@ -88,7 +88,7 @@ Notas: {notas or 'Ninguna'}
 
 Gracias por elegirnos.
 """
-        from app.utils.email import enviar_correo  # Ajusta si está en otro lado
+        from app.utils.correo import enviar_correo  # Ajusta si está en otro lado
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita creada exitosamente y correo enviado.', 'success')
