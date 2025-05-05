@@ -3,22 +3,46 @@ from app import db
 from app.models.Paciente import Paciente
 from app.models.Citas import Cita
 from app.models.Tratamiento import Tratamiento 
-from datetime import datetime, timedelta, date
+from datetime import datetime, date
+import yagmail
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
-# Mostrar todas las citas
-@cita_bp.route('/')
-def listar_citas():
-    busqueda = request.args.get('busqueda', '')
-    if busqueda:
-        citas = Cita.query.join(Paciente).filter(
-            (Paciente.nombre.like(f'%{busqueda}%')) | (Paciente.apellido.like(f'%{busqueda}%'))
-        ).all()
-    else:
-        citas = Cita.query.all()
-    return render_template('citas/listar_citas.html', citas=citas)
 
-# Crear nueva cita
+# Función para enviar un correo usando Gmail
+def send_email(subject: str, body: str, destinatario: str):
+    yag = yagmail.SMTP(user="tu_correo@gmail.com", password="tu_contraseña")
+    yag.send(to=destinatario, subject=subject, contents=body)
+
+# Función para crear una cita y enviar un correo
+def crear_cita_db(paciente_id: int, tratamiento_id: int, fecha: str, hora: str, motivo: str, notas: str, estado: str, correo_paciente: str):
+    fecha_obj = datetime.strptime(fecha, '%Y-%m-%d').date()
+    hora_obj = datetime.strptime(hora, '%H:%M').time()
+    
+    # Verifica que la cita no sea en el pasado
+    if datetime.combine(fecha_obj, hora_obj) < datetime.now():
+        return None  # Error, no puedes crear una cita en el pasado
+
+    nueva_cita = Cita(
+        paciente_id=paciente_id,
+        tratamiento_id=tratamiento_id,
+        fecha=fecha_obj,
+        hora=hora_obj,
+        motivo=motivo,
+        notas=notas,
+        estado=estado
+    )
+
+    db.session.add(nueva_cita)
+    db.session.commit()
+
+    # Enviar el correo de confirmación
+    subject = f"Confirmación de cita para {correo_paciente}"
+    body = f"Hola {correo_paciente},\n\nTu cita está confirmada para el {fecha} a las {hora}.\n\nSaludos,\nTu clínica dental."
+    send_email(subject, body, correo_paciente)
+
+    return nueva_cita  # Devuelve la cita creada
+
+# Ruta para crear una nueva cita
 @cita_bp.route('/nueva', methods=['GET', 'POST'])
 def crear_cita():
     pacientes = Paciente.query.all()
@@ -32,110 +56,56 @@ def crear_cita():
         motivo = request.form['motivo']
         notas = request.form.get('notas', '')
         estado = request.form['estado']
+        correo_paciente = request.form['correo']
 
-        # Convertir fecha y hora
-        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
-        hora = datetime.strptime(hora_str, '%H:%M').time()
-        datetime_cita = datetime.combine(fecha, hora)
-        ahora = datetime.now()
-
-        # Validaciones
-        if datetime_cita < ahora:
-            flash('No puedes crear una cita en el pasado.', 'danger')
-            return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
-
-        # Obtener todas las citas para ese día
-        citas_dia = Cita.query.filter_by(fecha=fecha).all()
+        # Validaciones: verifica si la cita ya existe en ese horario
+        citas_dia = Cita.query.filter_by(fecha=fecha_str).all()
         for cita in citas_dia:
             cita_datetime = datetime.combine(cita.fecha, cita.hora)
-            diferencia = abs((datetime_cita - cita_datetime).total_seconds()) / 60
+            diferencia = abs((datetime.combine(fecha_str, hora_str) - cita_datetime).total_seconds()) / 60
 
             if diferencia < 15:
-                flash(f'Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
+                flash('Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
                 return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
 
-        # Crear la cita 
-        nueva_cita = Cita(
-            paciente_id=paciente_id,
-            tratamiento_id=tratamiento_id,
-            fecha=fecha,
-            hora=hora,
-            motivo=motivo,
-            notas=notas,
-            estado=estado
-        )
+        # Crear la cita y enviar correo
+        nueva_cita = crear_cita_db(paciente_id, tratamiento_id, fecha_str, hora_str, motivo, notas, estado, correo_paciente)
 
-        db.session.add(nueva_cita)
-        db.session.commit()
+        if nueva_cita:
+            flash('Cita creada exitosamente y correo de confirmación enviado.', 'success')
+        else:
+            flash('No se pudo crear la cita, la fecha y hora son inválidas.', 'danger')
 
-        flash('Cita creada exitosamente.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
-    return render_template(
-    'citas/crear_cita.html',
-    pacientes=pacientes,
-    tratamientos=tratamientos,
-    current_date=date.today().isoformat(),
-    current_time=datetime.now().strftime('%H:%M')  
-)
+    return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
 
-# Editar cita
-@cita_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
-def editar_cita(id):
-    cita = Cita.query.get_or_404(id)
-    pacientes = Paciente.query.all()
-    tratamientos = Tratamiento.query.all()
+# Comando /crear_cita para el bot de Telegram
+def crear_cita_telegram(update, context):
+    if len(context.args) < 5:
+        update.message.reply_text("Por favor, proporciona los detalles completos: paciente_id, tratamiento_id, fecha, hora, correo.")
+        return
 
-    if request.method == 'POST':
-        paciente_id = request.form['paciente_id']
-        tratamiento_id = request.form.get('tratamiento_id') or None
-        fecha_str = request.form['fecha']
-        hora_str = request.form['hora']
-        motivo = request.form['motivo']
-        notas = request.form.get('notas', '')
-        estado = request.form['estado']
+    paciente_id = context.args[0]
+    tratamiento_id = context.args[1]
+    fecha = context.args[2]
+    hora = context.args[3]
+    correo_paciente = context.args[4]
 
-        # Convertir fecha y hora
-        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
-        hora = datetime.strptime(hora_str, '%H:%M').time()
-        datetime_cita = datetime.combine(fecha, hora)
-        ahora = datetime.now()
+    # Crear la cita y enviar correo
+    nueva_cita = crear_cita_db(paciente_id, tratamiento_id, fecha, hora, "", "", "Pendiente", correo_paciente)
 
-        # Validación: No en el pasado
-        if datetime_cita < ahora:
-            flash('No puedes reprogramar una cita a una fecha y hora en el pasado.', 'danger')
-            return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+    if nueva_cita:
+        update.message.reply_text(f"Cita creada con éxito para {correo_paciente} el {fecha} a las {hora}. Correo de confirmación enviado.")
+    else:
+        update.message.reply_text(f"No se pudo crear la cita para {correo_paciente}. La fecha y hora son inválidas.")
 
-        # Validación: Margen de 15 minutos con otras citas (excluyendo la actual)
-        citas_dia = Cita.query.filter(Cita.fecha == fecha, Cita.id != cita.id).all()
-        for otra in citas_dia:
-            otra_datetime = datetime.combine(otra.fecha, otra.hora)
-            diferencia = abs((datetime_cita - otra_datetime).total_seconds()) / 60
+def main():
+    updater = Updater("TU_TOKEN_DE_API_AQUI")
+    dispatcher = updater.dispatcher
+    dispatcher.add_handler(CommandHandler("crear_cita", crear_cita_telegram))
+    updater.start_polling()
+    updater.idle()
 
-            if diferencia < 15:
-                flash('Ya existe otra cita en un rango menor a 15 minutos. Cambia la hora.', 'danger')
-                return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
-
-        # Guardar cambios
-        cita.paciente_id = paciente_id
-        cita.tratamiento_id = tratamiento_id
-        cita.fecha = fecha
-        cita.hora = hora
-        cita.motivo = motivo
-        cita.notas = notas
-        cita.estado = estado
-
-        db.session.commit()
-        flash('Cita actualizada correctamente.', 'success')
-        return redirect(url_for('citas.listar_citas'))
-
-    return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
-
-# Eliminar cita
-@cita_bp.route('/eliminar/<int:id>', methods=['POST'])
-def eliminar_cita(id):
-    cita = Cita.query.get_or_404(id)
-    db.session.delete(cita)
-    db.session.commit()
-    flash('Cita eliminada exitosamente.', 'success')
-    return redirect(url_for('citas/listar_citas'))
+if __name__ == '__main__':
+    main()
