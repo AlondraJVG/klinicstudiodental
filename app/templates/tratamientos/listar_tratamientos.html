@@ -24,7 +24,7 @@
                         {% for tratamiento in tratamientos %}
                         <tr>
                             <td>{{ tratamiento.nombre }}</td>
-                            <td>{{ tratamiento.descripcion }}</td>
+                            <td>{{ tratamiento.descripcion | nl2br }}</td>
                             <td class="text-end">
                                 <a href="{{ url_for('tratamientos.editar_tratamiento', id=tratamiento.id) }}" class="btn btn-sm btn-warning">Editar</a>
                                 <form action="{{ url_for('tratamientos.eliminar_tratamiento', id=tratamiento.id) }}" method="POST" class="d-inline">

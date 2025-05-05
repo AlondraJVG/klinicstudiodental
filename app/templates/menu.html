@@ -52,7 +52,22 @@
                 <li><a href="{{ url_for('paciente.nuevo_paciente') }}">Nuevo Paciente</a></li>
             </ul>
         </li>
-        <li><a href="#"><i class="fas fa-image"></i><span>Images</span></a></li>
+
+        <li class="submenu">
+            <a href="#" class="submenu-toggle">
+                <i class="fas fa-tooth"></i>
+                <span>Tratamientos</span>
+                <i class="fas fa-chevron-down flecha"></i>
+            </a>
+            <ul class="submenu-items">
+                <li><a href="{{ url_for('tratamientos.crear_tratamiento') }}">Crear Tratamiento</a></li>
+                {% for tratamiento in tratamientos %}
+                <li><a href="{{ url_for('tratamientos.editar_tratamiento', id=cita.id) }}">Editar Tratamiento</a></li>
+                {% endfor %}
+                <li><a href="{{ url_for('tratamientos.listar_citas') }}">Ver Tratamiento</a></li>
+            </ul>
+        </li>
+
         <li><a href="#"><i class="fas fa-file-alt"></i><span>Files</span></a></li>
         <li><a href="#"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
 
