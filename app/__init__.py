@@ -12,7 +12,7 @@ def create_app():
 
     @app.template_filter('nl2br')
     def nl2br_filter(s):
-        if not s:
+        if not isinstance(s, str):
             return ''
         return Markup(s.replace('\n', '<br>\n'))
 
