@@ -3,7 +3,7 @@ from app import db
 from app.models.Paciente import Paciente
 from app.models.Citas import Cita
 from app.models.Tratamiento import Tratamiento 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 # Mostrar todas las citas
@@ -27,17 +27,39 @@ def crear_cita():
     if request.method == 'POST':
         paciente_id = request.form['paciente_id']
         tratamiento_id = request.form.get('tratamiento_id') or None
-        fecha = request.form['fecha']
-        hora = request.form['hora']
+        fecha_str = request.form['fecha']
+        hora_str = request.form['hora']
         motivo = request.form['motivo']
         notas = request.form.get('notas', '')
         estado = request.form['estado']
 
+        # Convertir fecha y hora
+        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        hora = datetime.strptime(hora_str, '%H:%M').time()
+        datetime_cita = datetime.combine(fecha, hora)
+        ahora = datetime.now()
+
+        # Validaciones
+        if datetime_cita < ahora:
+            flash('No puedes crear una cita en el pasado.', 'danger')
+            return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
+
+        # Obtener todas las citas para ese día
+        citas_dia = Cita.query.filter_by(fecha=fecha).all()
+        for cita in citas_dia:
+            cita_datetime = datetime.combine(cita.fecha, cita.hora)
+            diferencia = abs((datetime_cita - cita_datetime).total_seconds()) / 60
+
+            if diferencia < 15:
+                flash(f'Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
+                return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
+
+        # Crear la cita 
         nueva_cita = Cita(
             paciente_id=paciente_id,
             tratamiento_id=tratamiento_id,
-            fecha=datetime.strptime(fecha, '%Y-%m-%d').date(),
-            hora=datetime.strptime(hora, '%H:%M').time(),
+            fecha=fecha,
+            hora=hora,
             motivo=motivo,
             notas=notas,
             estado=estado
@@ -47,7 +69,7 @@ def crear_cita():
         db.session.commit()
 
         flash('Cita creada exitosamente.', 'success')
-        return redirect(url_for('citas/listar_citas'))
+        return redirect(url_for('citas.listar_citas'))
 
     return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
 
@@ -59,17 +81,47 @@ def editar_cita(id):
     tratamientos = Tratamiento.query.all()
 
     if request.method == 'POST':
-        cita.paciente_id = request.form['paciente_id']
-        cita.tratamiento_id = request.form.get('tratamiento_id') or None
-        cita.fecha = datetime.strptime(request.form['fecha'], '%Y-%m-%d').date()
-        cita.hora = datetime.strptime(request.form['hora'], '%H:%M').time()
-        cita.motivo = request.form['motivo']
-        cita.notas = request.form.get('notas', '')
-        cita.estado = request.form['estado']
+        paciente_id = request.form['paciente_id']
+        tratamiento_id = request.form.get('tratamiento_id') or None
+        fecha_str = request.form['fecha']
+        hora_str = request.form['hora']
+        motivo = request.form['motivo']
+        notas = request.form.get('notas', '')
+        estado = request.form['estado']
+
+        # Convertir fecha y hora
+        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
+        hora = datetime.strptime(hora_str, '%H:%M').time()
+        datetime_cita = datetime.combine(fecha, hora)
+        ahora = datetime.now()
+
+        # Validación: No en el pasado
+        if datetime_cita < ahora:
+            flash('No puedes reprogramar una cita a una fecha y hora en el pasado.', 'danger')
+            return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+
+        # Validación: Margen de 15 minutos con otras citas (excluyendo la actual)
+        citas_dia = Cita.query.filter(Cita.fecha == fecha, Cita.id != cita.id).all()
+        for otra in citas_dia:
+            otra_datetime = datetime.combine(otra.fecha, otra.hora)
+            diferencia = abs((datetime_cita - otra_datetime).total_seconds()) / 60
+
+            if diferencia < 15:
+                flash('Ya existe otra cita en un rango menor a 15 minutos. Cambia la hora.', 'danger')
+                return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+
+        # Guardar cambios
+        cita.paciente_id = paciente_id
+        cita.tratamiento_id = tratamiento_id
+        cita.fecha = fecha
+        cita.hora = hora
+        cita.motivo = motivo
+        cita.notas = notas
+        cita.estado = estado
 
         db.session.commit()
         flash('Cita actualizada correctamente.', 'success')
-        return redirect(url_for('citas/listar_citas'))
+        return redirect(url_for('citas.listar_citas'))
 
     return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
