@@ -71,12 +71,13 @@ def crear_cita():
         flash('Cita creada exitosamente.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
-    return render_template('citas/crear_cita.html', 
-                           pacientes=pacientes, 
-                           tratamientos=tratamientos, 
-                           current_date=date.today().isoformat()
-                           current_time=datetime.now().strftime('%H:%M')
-                           )
+    return render_template(
+    'citas/crear_cita.html',
+    pacientes=pacientes,
+    tratamientos=tratamientos,
+    current_date=date.today().isoformat(),
+    current_time=datetime.now().strftime('%H:%M')  
+)
 
 # Editar cita
 @cita_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
