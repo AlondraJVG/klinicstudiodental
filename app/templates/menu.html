@@ -62,9 +62,11 @@
             <ul class="submenu-items">
                 <li><a href="{{ url_for('tratamientos.crear_tratamiento') }}">Crear Tratamiento</a></li>
                 {% for tratamiento in tratamientos %}
-                <li><a href="{{ url_for('tratamientos.editar_tratamiento', id=cita.id) }}">Editar Tratamiento</a></li>
+                {% for tratamiento in tratamientos %}
+                <li><a href="{{ url_for('tratamientos.editar_tratamiento', id=tratamiento.id) }}">Editar Tratamiento</a>
+                </li>
                 {% endfor %}
-                <li><a href="{{ url_for('tratamientos.listar_citas') }}">Ver Tratamiento</a></li>
+                <li><a href="{{ url_for('tratamientos.listar_tratamiento') }}">Ver Tratamiento</a></li>
             </ul>
         </li>
 
