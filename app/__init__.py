@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Markup
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 
@@ -10,12 +10,13 @@ def create_app():
 
     db.init_app(app)
 
+    @app.template_filter('nl2br')
     def nl2br_filter(s):
         if not s:
             return ''
         return Markup(s.replace('\n', '<br>\n'))
 
-    # Importar y registrar las rutas
+    # Importar y registrar blueprints
     from app.routes.auth import auth_bp
     from app.routes.paciente import paciente_bp
     from app.routes.odontograma import odontograma_bp
@@ -33,5 +34,5 @@ def create_app():
     app.register_blueprint(condiciones_por_diente_bp)
     app.register_blueprint(cita_bp)
     app.register_blueprint(tratamiento_bp)
-    
+
     return app
