@@ -10,6 +10,11 @@ def create_app():
 
     db.init_app(app)
 
+    def nl2br_filter(s):
+        if not s:
+            return ''
+        return Markup(s.replace('\n', '<br>\n'))
+
     # Importar y registrar las rutas
     from app.routes.auth import auth_bp
     from app.routes.paciente import paciente_bp
