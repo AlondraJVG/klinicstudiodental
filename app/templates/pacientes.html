@@ -49,16 +49,16 @@
                     <tbody>
                         {% for paciente in pacientes %}
                         <tr>
-                            <td>{{ paciente.id }}</td>
-                            <td>{{ paciente.nombre }}</td>
-                            <td>{{ paciente.apellido }}</td>
-                            <td>{{ paciente.edad }}</td>
-                            <td>{{ paciente.sexo }}</td>
-                            <td>{{ paciente.tipo_sangre }}</td>
-                            <td>{{ paciente.correo }}</td>
-                            <td>{{ paciente.telefono }}</td>
-                            <td>{{ paciente.contacto_emergencia }}</td>
-                            <td>{{ paciente.nombre_contacto }}</td>
+                            <td>{{ paciente.id | nl2br }}</td>
+                            <td>{{ paciente.nombre | nl2br }}</td>
+                            <td>{{ paciente.apellido | nl2br }}</td>
+                            <td>{{ paciente.edad | nl2br }}</td>
+                            <td>{{ paciente.sexo | nl2br }}</td>
+                            <td>{{ paciente.tipo_sangre | nl2br }}</td>
+                            <td>{{ paciente.correo | nl2br }}</td>
+                            <td>{{ paciente.telefono | nl2br }}</td>
+                            <td>{{ paciente.contacto_emergencia | nl2br }}</td>
+                            <td>{{ paciente.nombre_contacto | nl2br }}</td>
                             <td>
                                 <a href="{{ url_for('paciente.editar_paciente', id=paciente.id) }}"
                                     class="btn btn-sm btn-editar mb-1">Editar</a>
