@@ -18,6 +18,7 @@ def create_app():
     from app.routes.condiciones_dentales import condicion_bp
     from app.routes.condiciones_por_diente import condiciones_por_diente_bp
     from app.routes.cita import cita_bp
+    from app.routes.tratamiento import tratamiento_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(paciente_bp)
@@ -26,5 +27,6 @@ def create_app():
     app.register_blueprint(condicion_bp)
     app.register_blueprint(condiciones_por_diente_bp)
     app.register_blueprint(cita_bp)
-
+    app.register_blueprint(tratamiento_bp)
+    
     return app
