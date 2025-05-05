@@ -3,7 +3,7 @@ from app import db
 from app.models.Paciente import Paciente
 from app.models.Citas import Cita
 from app.models.Tratamiento import Tratamiento 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 # Mostrar todas las citas
@@ -71,7 +71,7 @@ def crear_cita():
         flash('Cita creada exitosamente.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
-    return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos)
+    return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos, current_date=date.today().isoformat())
 
 # Editar cita
 @cita_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
