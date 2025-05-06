@@ -18,7 +18,7 @@ def listar_citas():
         ).all()
     else:
         citas = Cita.query.all()
-    return render_template('citas.listar_citas.html', citas=citas)
+    return render_template('citas/listar_citas.html', citas=citas)
 
 # Crear nueva cita
 @cita_bp.route('/nueva', methods=['GET', 'POST'])
@@ -44,7 +44,7 @@ def crear_cita():
         # Validación: no puede estar en el pasado
         if datetime_cita < ahora:
             flash('No puedes crear una cita en el pasado.', 'danger')
-            return render_template('citas.crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
+            return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
                                    current_date=date.today().isoformat(),
                                    current_time=datetime.now().strftime('%H:%M'))
 
@@ -56,7 +56,7 @@ def crear_cita():
 
             if diferencia < 15:
                 flash('Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
-                return render_template('citas.crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
+                return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
                                        current_date=date.today().isoformat(),
                                        current_time=datetime.now().strftime('%H:%M'))
 
@@ -93,11 +93,11 @@ Gracias por elegirnos.
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita creada exitosamente y correo enviado.', 'success')
-        return redirect(url_for('citas.listar_citas'))
+        return redirect(url_for('citas/listar_citas'))
 
     # Si el método es GET, mostrar formulario
     return render_template(
-        'citas.crear_cita.html',
+        'citas/crear_cita.html',
         pacientes=pacientes,
         tratamientos=tratamientos,
         current_date=date.today().isoformat(),
@@ -167,7 +167,7 @@ Gracias por tu comprensión.
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita actualizada correctamente y correo enviado.', 'success')
-        return redirect(url_for('citas.listar_citas'))
+        return redirect(url_for('citas/listar_citas'))
 
     return render_template('citas.editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
@@ -195,5 +195,5 @@ Saludos.
 
     flash('Cita eliminada exitosamente y correo enviado.', 'success')
 
-    return redirect(url_for('citas.listar_citas'))
+    return redirect(url_for('citas/listar_citas'))
 
