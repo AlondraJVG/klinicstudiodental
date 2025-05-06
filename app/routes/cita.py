@@ -18,7 +18,7 @@ def listar_citas():
         ).all()
     else:
         citas = Cita.query.all()
-    return render_template('citas.listar_citas.html', citas=citas)
+    return render_template('citas/listar_citas.html', citas=citas)
 
 # Crear nueva cita
 @cita_bp.route('/nueva', methods=['GET', 'POST'])
