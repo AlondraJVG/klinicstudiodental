@@ -10,7 +10,7 @@ def enviar_correo(destinatario, asunto, cuerpo):
     MAIL_USERNAME = Config.MAIL_USERNAME
     MAIL_PASSWORD = Config.MAIL_PASSWORD
 
-    mensaje = MIMEText(cuerpo, "html")
+    mensaje = MIMEText(cuerpo, "html", "utf-8")
     mensaje["Subject"] = asunto
     mensaje["From"] = MAIL_USERNAME
     mensaje["To"] = destinatario
