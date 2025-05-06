@@ -4,6 +4,7 @@ from app.models.Paciente import Paciente
 from app.models.Citas import Cita
 from app.models.Tratamiento import Tratamiento 
 from datetime import datetime, timedelta, date
+from app.utils.correo import enviar_correo
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 
@@ -150,7 +151,22 @@ def editar_cita(id):
         cita.estado = estado
 
         db.session.commit()
-        flash('Cita actualizada correctamente.', 'success')
+        # Enviar correo de actualización
+        paciente = Paciente.query.get(paciente_id)
+        destinatario = paciente.correo
+        asunto = "Cita reprogramada"
+        cuerpo = f"""Hola {paciente.nombre},
+
+Tu cita ha sido reprogramada para el día {fecha.strftime('%d/%m/%Y')} a las {hora.strftime('%H:%M')}.
+
+Motivo: {motivo}
+Notas: {notas or 'Ninguna'}
+
+Gracias por tu comprensión.
+"""
+        enviar_correo(destinatario, asunto, cuerpo)
+
+        flash('Cita actualizada correctamente y correo enviado.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
     return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
@@ -159,8 +175,25 @@ def editar_cita(id):
 @cita_bp.route('/eliminar/<int:id>', methods=['POST'])
 def eliminar_cita(id):
     cita = Cita.query.get_or_404(id)
+
+    paciente = Paciente.query.get(cita.paciente_id)
+    destinatario = paciente.correo
+    asunto = "Cita cancelada"
+    cuerpo = f"""Hola {paciente.nombre},
+
+Tu cita programada para el día {cita.fecha.strftime('%d/%m/%Y')} a las {cita.hora.strftime('%H:%M')} ha sido cancelada.
+
+Si deseas reprogramarla, contáctanos.
+
+Saludos.
+"""
+    enviar_correo(destinatario, asunto, cuerpo)
+
+    # Eliminar la cita
     db.session.delete(cita)
     db.session.commit()
-    flash('Cita eliminada exitosamente.', 'success')
+
+    flash('Cita eliminada exitosamente y correo enviado.', 'success')
+
     return redirect(url_for('citas/listar_citas'))
 
