@@ -15,14 +15,14 @@
         text-align: center;
         color: #333333;
     }
-    .details, .changes {
+    .details {
         background-color: #f9f9f9;
         padding: 15px;
         border-radius: 5px;
         margin-top: 15px;
         margin-bottom: 15px;
     }
-    .details p, .changes p {
+    .details p {
         margin: 5px 0;
     }
     .footer {
@@ -38,7 +38,7 @@
     <h2 class="header">Reprogramación de Cita</h2>
     <p>Estimado/a <strong>{{ nombre }}</strong>,</p>
 
-    <p>Nos complace informarle que su cita ha sido reprogramada con éxito. A continuación, encontrará los nuevos detalles:</p>
+    <p>Le informamos que su cita ha sido reprogramada. A continuación, encontrará los nuevos detalles:</p>
 
     <div class="details">
       <p><strong>Fecha:</strong> {{ fecha }}</p>
@@ -47,18 +47,13 @@
       <p><strong>Notas:</strong> {{ notas }}</p>
     </div>
 
-    <p><strong>Cambios Realizados</strong></p>
-    <div class="changes">
-      <p>La cita originalmente programada para el <strong>{{ fecha_anterior }}</strong> a las <strong>{{ hora_anterior }}</strong> ha sido reprogramada para <strong>{{ nueva_fecha }}</strong> a las <strong>{{ nueva_hora }}</strong>.</p>
-    </div>
-
     <p><strong>¿Qué debe hacer a continuación?</strong></p>
     <ul>
-      <li>Por favor, llegue 15 minutos antes de su cita.</li>
+      <li>Llegue 15 minutos antes de su cita para completar cualquier documentación necesaria.</li>
       <li>Si necesita cambiarla nuevamente, contáctenos con al menos 24 horas de anticipación.</li>
     </ul>
 
-    <p>Gracias por su comprensión. Estamos comprometidos con brindarle la mejor atención posible.</p>
+    <p>Agradecemos su comprensión. Estamos comprometidos con brindarle la mejor atención posible.</p>
 
     <div class="footer">
       <p><strong>Contacto</strong></p>
