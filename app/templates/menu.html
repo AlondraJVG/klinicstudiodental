@@ -21,10 +21,7 @@
             </a>
             <ul class="submenu-items">
                 <li><a href="{{ url_for('citas.crear_cita') }}">Crear Cita</a></li>
-                {% for cita in citas %}
-                <li><a href="{{ url_for('citas.editar_cita', id=cita.id) }}">Editar Cita</a></li>
-                {% endfor %}
-                <li><a href="{{ url_for('citas.listar_citas') }}">Ver citas</a></li>
+                <li><a href="{{ url_for('citas.listar_citas') }}">Ver Citas</a></li>
             </ul>
         </li>
 
