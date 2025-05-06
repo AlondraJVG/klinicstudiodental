@@ -13,3 +13,5 @@ class Paciente(db.Model):
     telefono = db.Column(db.String(20), nullable=False)
     contacto_emergencia  = db.Column(db.String(20), nullable=False)
     nombre_contacto = db.Column(db.String(100), nullable=False)
+
+    odontogramas = db.relationship('Odontograma', back_populates='paciente')
