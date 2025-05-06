@@ -1,17 +1,15 @@
-from flask_mail import Message
-from flask import current_app
-from app import mail
+import smtplib
+from email.mime.text import MIMEText
+from config import MAIL_SERVER, MAIL_PORT, MAIL_USE_TLS, MAIL_USERNAME, MAIL_PASSWORD
 
 def enviar_correo(destinatario, asunto, cuerpo):
-    msg = Message(
-        subject=asunto,
-        sender=current_app.config['MAIL_USERNAME'],
-        recipients=[destinatario],
-        body=cuerpo
-    )
+    mensaje = MIMEText(cuerpo, "html")
+    mensaje["Subject"] = asunto
+    mensaje["From"] = MAIL_USERNAME
+    mensaje["To"] = destinatario
 
-    try:
-        mail.send(msg)
-        print(f"Correo enviado a {destinatario}")
-    except Exception as e:
-        print(f"Error al enviar correo: {e}")
+    with smtplib.SMTP(MAIL_SERVER, MAIL_PORT) as servidor:
+        if MAIL_USE_TLS:
+            servidor.starttls()
+        servidor.login(MAIL_USERNAME, MAIL_PASSWORD)
+        servidor.sendmail(MAIL_USERNAME, destinatario, mensaje.as_string())
