@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .container {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        background-color: #ffffff;
+    }
+    .header {
+        text-align: center;
+        color: #333333;
+    }
+    .details, .changes {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .details p, .changes p {
+        margin: 5px 0;
+    }
+    .footer {
+        font-size: 12px;
+        color: #777777;
+        text-align: center;
+        margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="header">Reprogramación de Cita</h2>
+    <p>Estimado/a <strong>{{ nombre }}</strong>,</p>
+
+    <p>Nos complace informarle que su cita ha sido reprogramada con éxito. A continuación, encontrará los nuevos detalles:</p>
+
+    <div class="details">
+      <p><strong>Fecha:</strong> {{ fecha }}</p>
+      <p><strong>Hora:</strong> {{ hora }}</p>
+      <p><strong>Motivo:</strong> {{ motivo }}</p>
+      <p><strong>Notas:</strong> {{ notas }}</p>
+    </div>
+
+    <p><strong>Cambios Realizados</strong></p>
+    <div class="changes">
+      <p>La cita originalmente programada para el <strong>{{ fecha_anterior }}</strong> a las <strong>{{ hora_anterior }}</strong> ha sido reprogramada para <strong>{{ nueva_fecha }}</strong> a las <strong>{{ nueva_hora }}</strong>.</p>
+    </div>
+
+    <p><strong>¿Qué debe hacer a continuación?</strong></p>
+    <ul>
+      <li>Por favor, llegue 15 minutos antes de su cita.</li>
+      <li>Si necesita cambiarla nuevamente, contáctenos con al menos 24 horas de anticipación.</li>
+    </ul>
+
+    <p>Gracias por su comprensión. Estamos comprometidos con brindarle la mejor atención posible.</p>
+
+    <div class="footer">
+      <p><strong>Contacto</strong></p>
+      <p>Teléfono: {{ telefono }}</p>
+      <p>Correo electrónico: {{ correo }}</p>
+      <p>Atentamente,<br>{{ remitente }}</p>
+    </div>
+  </div>
+</body>
+</html>

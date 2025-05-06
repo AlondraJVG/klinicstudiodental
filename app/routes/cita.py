@@ -86,8 +86,8 @@ def crear_cita():
             hora=hora.strftime('%H:%M'),
             motivo=motivo,
             notas=notas or 'Ninguna',
-            telefono='33 1234 5678',  # o usa Config.TELEFONO
-            correo='contacto@klinicstudio.com',  # o usa Config
+            telefono='3318583055',  # 
+            correo='klinical30@gmail.com',  # 
             remitente='Klinic Studio Dental'
 )
         enviar_correo(destinatario, asunto, cuerpo)
@@ -155,15 +155,18 @@ def editar_cita(id):
         paciente = Paciente.query.get(paciente_id)
         destinatario = paciente.correo
         asunto = "Cita reprogramada"
-        cuerpo = f"""Hola {paciente.nombre},
+        cuerpo = render_template('correos/reprogramacion.html',
+            nombre=paciente.nombre,
+            fecha=fecha.strftime('%d/%m/%Y'),
+            hora=hora.strftime('%H:%M'),
+            motivo=motivo,
+            notas=cita.notas or 'Ninguna',
+            telefono='33 1234 5678',
+            correo='contacto@klinicstudio.com',
+            remitente='Klinic Studio Dental'
+        )
 
-Tu cita ha sido reprogramada para el día {fecha.strftime('%d/%m/%Y')} a las {hora.strftime('%H:%M')}.
-
-Motivo: {motivo}
-Notas: {notas or 'Ninguna'}
-
-Gracias por tu comprensión.
-"""
+        asunto = "Reprogramación de Cita"
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita actualizada correctamente y correo enviado.', 'success')
