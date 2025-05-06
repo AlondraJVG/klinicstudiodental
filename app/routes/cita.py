@@ -18,7 +18,7 @@ def listar_citas():
         ).all()
     else:
         citas = Cita.query.all()
-    return render_template('citas/listar_citas.html', citas=citas)
+    return render_template('citas.listar_citas.html', citas=citas)
 
 # Crear nueva cita
 @cita_bp.route('/nueva', methods=['GET', 'POST'])
@@ -93,7 +93,7 @@ Gracias por elegirnos.
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita creada exitosamente y correo enviado.', 'success')
-        return redirect(url_for('citas/listar_citas'))
+        return redirect(url_for('citas.listar_citas'))
 
     # Si el método es GET, mostrar formulario
     return render_template(
@@ -167,7 +167,7 @@ Gracias por tu comprensión.
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita actualizada correctamente y correo enviado.', 'success')
-        return redirect(url_for('citas/listar_citas'))
+        return redirect(url_for('citas.listar_citas'))
 
     return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
@@ -195,5 +195,5 @@ Saludos.
 
     flash('Cita eliminada exitosamente y correo enviado.', 'success')
 
-    return redirect(url_for('citas/listar_citas'))
+    return redirect(url_for('citas.listar_citas'))
 
