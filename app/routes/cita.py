@@ -80,16 +80,16 @@ def crear_cita():
         # Componer y enviar correo
         destinatario = paciente.correo
         asunto = "Confirmación de cita"
-        cuerpo = f"""Hola {paciente.nombre},
-
-Tu cita ha sido programada para el día {fecha.strftime('%d/%m/%Y')} a las {hora.strftime('%H:%M')}.
-
-Motivo: {motivo}
-Notas: {notas or 'Ninguna'}
-
-Gracias por elegirnos.
-"""
-        from app.utils.correo import enviar_correo  # Ajusta si está en otro lado
+        cuerpo = render_template('correos/cuerpo.html',
+            nombre=paciente.nombre,
+            fecha=fecha.strftime('%d/%m/%Y'),
+            hora=hora.strftime('%H:%M'),
+            motivo=motivo,
+            notas=notas or 'Ninguna',
+            telefono='33 1234 5678',  # o usa Config.TELEFONO
+            correo='contacto@klinicstudio.com',  # o usa Config
+            remitente='Klinic Studio Dental'
+)
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita creada exitosamente y correo enviado.', 'success')

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    .container {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        background-color: #ffffff;
+    }
+    .header {
+        text-align: center;
+        color: #333333;
+    }
+    .details {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .details p {
+        margin: 5px 0;
+    }
+    .footer {
+        font-size: 12px;
+        color: #777777;
+        text-align: center;
+        margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="header">Confirmación de Cita</h2>
+    <p>Estimado/a <strong>{{ nombre }}</strong>,</p>
+
+    <p>Nos complace informarle que su cita ha sido programada con éxito. A continuación, encontrará los detalles:</p>
+
+    <div class="details">
+      <p><strong>Fecha:</strong> {{ fecha }}</p>
+      <p><strong>Hora:</strong> {{ hora }}</p>
+      <p><strong>Motivo:</strong> {{ motivo }}</p>
+      <p><strong>Notas:</strong> {{ notas }}</p>
+    </div>
+
+    <p><strong>¿Qué debe hacer a continuación?</strong></p>
+    <ul>
+      <li>Llegue 15 minutos antes de su cita para completar cualquier documentación necesaria.</li>
+      <li>Si necesita cancelar o reprogramar su cita, contáctenos con al menos 24 horas de antelación.</li>
+    </ul>
+
+    <p>Agradecemos su confianza en nosotros.<br>
+    Gracias por elegirnos para su atención médica. Estamos comprometidos con brindarle la mejor atención posible.</p>
+
+    <div class="footer">
+      <p><strong>Contacto</strong></p>
+      <p>Teléfono: {{ telefono }}</p>
+      <p>Correo electrónico: {{ correo }}</p>
+      <p>Atentamente,<br>{{ remitente }}</p>
+    </div>
+  </div>
+</body>
+</html>
