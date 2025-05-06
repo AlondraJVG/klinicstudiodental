@@ -86,8 +86,8 @@ def crear_cita():
             hora=hora.strftime('%H:%M'),
             motivo=motivo,
             notas=notas or 'Ninguna',
-            telefono='3318583055',  # 
-            correo='klinical30@gmail.com',  # 
+            telefono='3318583055',  
+            correo='klinical30@gmail.com',  
             remitente='Klinic Studio Dental'
 )
         enviar_correo(destinatario, asunto, cuerpo)
@@ -161,8 +161,8 @@ def editar_cita(id):
             hora=hora.strftime('%H:%M'),
             motivo=motivo,
             notas=cita.notas or 'Ninguna',
-            telefono='33 1234 5678',
-            correo='contacto@klinicstudio.com',
+            telefono='3318583055',   
+            correo='klinical30@gmail.com', 
             remitente='Klinic Studio Dental'
         )
 
@@ -178,25 +178,26 @@ def editar_cita(id):
 @cita_bp.route('/eliminar/<int:id>', methods=['POST'])
 def eliminar_cita(id):
     cita = Cita.query.get_or_404(id)
-
     paciente = Paciente.query.get(cita.paciente_id)
+
+    # Preparar el correo
     destinatario = paciente.correo
     asunto = "Cita cancelada"
-    cuerpo = f"""Hola {paciente.nombre},
+    cuerpo_html = render_template('correos/cancelacion.html',  
+        nombre=paciente.nombre,
+        fecha=cita.fecha.strftime('%d/%m/%Y'),
+        hora=cita.hora.strftime('%H:%M'),
+        motivo=cita.motivo,
+        telefono='3318583055',   
+        correo='klinical30@gmail.com', 
+        remitente="Clínica Dental"
+    )
 
-Tu cita programada para el día {cita.fecha.strftime('%d/%m/%Y')} a las {cita.hora.strftime('%H:%M')} ha sido cancelada.
-
-Si deseas reprogramarla, contáctanos.
-
-Saludos.
-"""
-    enviar_correo(destinatario, asunto, cuerpo)
+    enviar_correo(destinatario, asunto, cuerpo_html)
 
     # Eliminar la cita
     db.session.delete(cita)
     db.session.commit()
 
     flash('Cita eliminada exitosamente y correo enviado.', 'success')
-
     return redirect(url_for('citas.listar_citas'))
-
