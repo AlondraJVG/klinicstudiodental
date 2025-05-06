@@ -8,4 +8,4 @@ class Odontograma(db.Model):
     pacientes_id = db.Column(db.Integer, db.ForeignKey('pacientes.id'))
     fecha_creacion = db.Column(db.Date, default=datetime.utcnow)
 
-    paciente = db.relationship('Paciente', backref=db.backref('odontogramas'))
+    paciente = db.relationship('Paciente', back_populates='odontogramas')
