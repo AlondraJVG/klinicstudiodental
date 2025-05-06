@@ -21,4 +21,4 @@ def enviar_correo(destinatario, asunto, cuerpo):
         if MAIL_USE_TLS:
             servidor.starttls()
         servidor.login(MAIL_USERNAME, MAIL_PASSWORD)
-        servidor.sendmail(MAIL_USERNAME, destinatario, mensaje.as_string())
+        servidor.sendmail(MAIL_USERNAME, destinatario, mensaje.as_bytes())

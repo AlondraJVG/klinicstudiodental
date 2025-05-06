@@ -129,7 +129,7 @@ def editar_cita(id):
         # Validación: No en el pasado
         if datetime_cita < ahora:
             flash('No puedes reprogramar una cita a una fecha y hora en el pasado.', 'danger')
-            return render_template('citas.editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+            return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
         # Validación: Margen de 15 minutos con otras citas (excluyendo la actual)
         citas_dia = Cita.query.filter(Cita.fecha == fecha, Cita.id != cita.id).all()
@@ -139,7 +139,7 @@ def editar_cita(id):
 
             if diferencia < 15:
                 flash('Ya existe otra cita en un rango menor a 15 minutos. Cambia la hora.', 'danger')
-                return render_template('citas.editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+                return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
         # Guardar cambios
         cita.paciente_id = paciente_id
@@ -169,7 +169,7 @@ Gracias por tu comprensión.
         flash('Cita actualizada correctamente y correo enviado.', 'success')
         return redirect(url_for('citas/listar_citas'))
 
-    return render_template('citas.editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+    return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
 # Eliminar cita
 @cita_bp.route('/eliminar/<int:id>', methods=['POST'])
