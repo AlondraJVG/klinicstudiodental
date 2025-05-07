@@ -41,7 +41,7 @@
                             <td>{{ tratamiento.fecha.strftime('%d/%m/%Y') }}</td>
                             <td>{{ tratamiento.observaciones }}</td>
                             <td>
-                                <a href="{{ url_for('historial_tratamientos.editar_tratamiento', historial_id=tratamiento.id) }}" class="btn btn-sm btn-editar mb-1">Editar</a>
+                                <a href="{{ url_for('historial_tratamientos.editar_tratamiento', historial_id=historial.id) }}" class="btn btn-primary">+ Nuevo Tratamiento</a>
 
                                 <form action="{{ url_for('historial_tratamientos.eliminar_tratamiento', historial_id=tratamiento.id) }}" method="POST" style="display:inline;">
                                     <button type="submit" class="btn btn-sm btn-eliminar"

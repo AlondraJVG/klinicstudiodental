@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<img src="{{ url_for('static', filename='imagenes/fondo_login.jpg') }}" alt="Background" class="login--image">
+
+<div class="container mt-5">
+    <h3 class="text-primary mb-4">Agregar Nuevo Tratamiento</h3>
+
+    <form method="POST" action="{{ url_for('historial_tratamientos.nuevo_tratamiento', paciente_id=paciente_id) }}">
+        <div class="card shadow-lg rounded-4 p-4">
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha del tratamiento</label>
+                <input type="date" class="form-control" name="fecha" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <textarea class="form-control" name="observaciones" rows="4" required></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente_id) }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Guardar Tratamiento</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
