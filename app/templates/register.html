@@ -6,21 +6,35 @@
 <div class="container mt-5">
     <div class="card shadow-lg rounded-4">
         <div class="card-body">
-            <h3>Registrar nuevo usuario</h3>
+            <h3 class="text-primary mb-4">Registrar nuevo usuario</h3>
+
             <form method="POST">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required><br>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control" required>
+                    </div>
 
-                <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos" name="apellidos" required><br>
+                    <div class="col-md-6">
+                        <label for="apellidos" class="form-label">Apellidos</label>
+                        <input type="text" id="apellidos" name="apellidos" class="form-control" required>
+                    </div>
+                </div>
 
-                <label for="correo">Correo:</label>
-                <input type="email" id="correo" name="correo" required><br>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" id="correo" name="correo" class="form-control" required>
+                </div>
 
-                <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" name="contrasena" required><br>
+                <div class="mb-3">
+                    <label for="contrasena" class="form-label">Contraseña</label>
+                    <input type="password" id="contrasena" name="contrasena" class="form-control" required>
+                </div>
 
-                <button type="submit">Registrar</button>
+                <div class="d-flex justify-content-end">
+                    <a href="{{ url_for('usuarios.listar_usuarios') }}" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
             </form>
         </div>
     </div>
