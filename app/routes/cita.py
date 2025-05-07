@@ -44,6 +44,7 @@ def crear_cita():
         fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
         hora = datetime.strptime(hora_str, '%H:%M').time()
         datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
+
         ahora = ahora_gdl()
 
         # Validación: no puede estar en el pasado
@@ -54,9 +55,9 @@ def crear_cita():
                                    current_time=datetime.now().strftime('%H:%M'))
 
         # Validación: margen de 15 minutos con otras citas
-        citas_dia = Cita.query.filter_by(fecha=fecha).all()
+        citas_dia = Cita.query.filter(Cita.fecha_hora == fecha).all()
         for cita in citas_dia:
-            cita_datetime = datetime.combine(cita.fecha, cita.hora)
+            cita_datetime = cita.fecha_hora  # Ya es un datetime con zona horaria
             diferencia = abs((datetime_cita - cita_datetime).total_seconds()) / 60
             if diferencia < 15:
                 flash('Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
@@ -71,12 +72,11 @@ def crear_cita():
                                     current_date=date.today().isoformat(),
                                     current_time=datetime.now().strftime('%H:%M'))
 
-        # Crear y guardar la cita
+        # Crear y guardar la cita con el campo 'fecha_hora'
         nueva_cita = Cita(
             paciente_id=paciente_id,
             tratamiento_id=tratamiento_id,
-            fecha=fecha,
-            hora=hora,
+            fecha_hora=datetime_cita,  # Ahora guardamos la cita con la fecha y hora en un solo campo
             motivo=motivo,
             notas=notas,
             estado=estado
@@ -134,6 +134,7 @@ def editar_cita(id):
         fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
         hora = datetime.strptime(hora_str, '%H:%M').time()
         datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
+
         ahora = ahora_gdl()
 
         # Validación 1: No en el pasado
@@ -141,57 +142,30 @@ def editar_cita(id):
             flash('No puedes reprogramar una cita a una fecha y hora en el pasado.', 'danger')
             return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
-        # Validación 2: No superponerse con otra cita (mínimo 15 minutos de diferencia, excluyendo la misma cita)
-        citas_dia = Cita.query.filter(Cita.fecha == fecha, Cita.id != cita.id).all()
+        # Validación 2: No superponerse con otra cita
+        citas_dia = Cita.query.filter(Cita.fecha_hora == fecha, Cita.id != cita.id).all()
         for otra in citas_dia:
-            otra_datetime = datetime.combine(otra.fecha, otra.hora)
+            otra_datetime = otra.fecha_hora
             diferencia = abs((datetime_cita - otra_datetime).total_seconds()) / 60
             if diferencia < 15:
                 flash('Ya existe otra cita en un rango menor a 15 minutos. Cambia la hora.', 'danger')
                 return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
-        # Validación 3: El paciente no debe tener otra cita ese mismo día (excluyendo la actual)
-        cita_existente = Cita.query.filter(
-            Cita.paciente_id == paciente_id,
-            Cita.fecha == fecha,
-            Cita.id != cita.id
-        ).first()
-        if cita_existente:
-            flash('Este paciente ya tiene otra cita programada para este día.', 'danger')
-            return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
-
         # Guardar cambios
         cita.paciente_id = paciente_id
         cita.tratamiento_id = tratamiento_id
-        cita.fecha = fecha
-        cita.hora = hora
+        cita.fecha_hora = datetime_cita  # Actualizar con nueva fecha y hora
         cita.motivo = motivo
         cita.notas = notas
         cita.estado = estado
 
         db.session.commit()
 
-        # Enviar correo de actualización
-        paciente = Paciente.query.get(paciente_id)
-        destinatario = paciente.correo
-        asunto = "Cita reprogramada"
-        cuerpo = render_template('correos/reprogramacion.html',
-            nombre=paciente.nombre,
-            fecha=fecha.strftime('%d/%m/%Y'),
-            hora=hora.strftime('%H:%M'),
-            motivo=motivo,
-            notas=notas or 'Ninguna',
-            telefono='3318583055',
-            correo='klinical30@gmail.com',
-            remitente='Klinic Studio Dental'
-        )
-
-        enviar_correo(destinatario, asunto, cuerpo)
-
-        flash('Cita actualizada correctamente y correo enviado.', 'success')
+        flash('Cita actualizada correctamente.', 'success')
         return redirect(url_for('citas.listar_citas'))
 
     return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+
 
 # Eliminar cita
 @cita_bp.route('/eliminar/<int:id>', methods=['POST'])
