@@ -61,15 +61,21 @@
                 <i class="fas fa-chevron-down flecha"></i>
             </a>
             <ul class="submenu-items">
-                <li>
-                    <a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}">Ver
-                        Historial clínico</a>
-                </li>
+                {% if paciente %}
+                    <li>
+                        <a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}">
+                            Ver Historial clínico
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="#" onclick="alert('Debe seleccionar un paciente primero.')">
+                            Ver Historial clínico
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </li>
-
-
-
         <li><a href="#"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
         <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
         <li><a href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
