@@ -1,12 +1,15 @@
-<!-- templates/historial/seleccionar_paciente.html -->
-<h1>Seleccionar Paciente</h1>
-<ul>
-    {% for paciente in pacientes %}
-    <li>
-        {{ paciente.nombre }} {{ paciente.apellidos }}
-        <a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}">
-            Ver historial
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3 class="text-primary mb-4">Seleccionar Paciente</h3>
+    <ul class="list-group">
+        {% for paciente in pacientes %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ paciente.nombre }} {{ paciente.apellido }}
+            <a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}" class="btn btn-sm btn-primary">Ver Historial</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

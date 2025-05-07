@@ -47,3 +47,8 @@ def nuevo_tratamiento(paciente_id):
         flash('Tratamiento agregado con éxito.', 'success')
         return redirect(url_for('historial_tratamientos.ver_historial', paciente_id=paciente_id))
     return render_template('historial/nuevo_tratamiento.html', paciente_id=paciente_id)
+
+@historial_tratamientos_bp.route('/seleccionar', methods=['GET'])
+def seleccionar_paciente():
+    pacientes = Paciente.query.all()
+    return render_template('historial/seleccionar_paciente.html', pacientes=pacientes)
