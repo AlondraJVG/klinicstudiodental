@@ -23,20 +23,15 @@ def create_app():
     # Importar y registrar blueprints
     from app.routes.auth import auth_bp
     from app.routes.paciente import paciente_bp
-    from app.routes.odontograma import odontograma_bp
-    from app.routes.diente import diente_bp
-    from app.routes.condiciones_dentales import condicion_bp
-    from app.routes.condiciones_por_diente import condiciones_por_diente_bp
     from app.routes.cita import cita_bp
     from app.routes.tratamiento import tratamiento_bp
+    from app.routes.historial_tratamientos import historial_tratamientos_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(paciente_bp)
-    app.register_blueprint(odontograma_bp)
-    app.register_blueprint(diente_bp)
-    app.register_blueprint(condicion_bp)
-    app.register_blueprint(condiciones_por_diente_bp)
     app.register_blueprint(cita_bp)
     app.register_blueprint(tratamiento_bp)
+    app.register_blueprint(historial_tratamientos_bp)
+
 
     return app

@@ -27,19 +27,6 @@
 
         <li class="submenu">
             <a href="#" class="submenu-toggle">
-                <i class="fas fa-tooth"></i>
-                <span>Odontograma</span>
-                <i class="fas fa-chevron-down flecha"></i>
-            </a>
-            <ul class="submenu-items">
-                <li><a href="{{ url_for('odontograma.crear_odontograma', paciente_id=1) }}">Crear Odontograma</a></li>
-                <li><a href="{{ url_for('odontograma.ver_odontograma', paciente_id=1) }}">Ver Odontograma</a></li>
-                <li><a href="{{ url_for('odontograma.seleccionar_paciente') }}">Seleccionar Paciente</a></li>
-            </ul>
-        </li>
-
-        <li class="submenu">
-            <a href="#" class="submenu-toggle">
                 <img src="{{ url_for('static', filename='imagenes/Paciente.png') }}" class="icono-menu">
                 <span>Paciente</span>
                 <i class="fas fa-chevron-down flecha"></i>
