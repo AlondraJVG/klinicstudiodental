@@ -1,0 +1,12 @@
+<!-- templates/historial/seleccionar_paciente.html -->
+<h1>Seleccionar Paciente</h1>
+<ul>
+    {% for paciente in pacientes %}
+    <li>
+        {{ paciente.nombre }} {{ paciente.apellidos }}
+        <a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}">
+            Ver historial
+        </a>
+    </li>
+    {% endfor %}
+</ul>

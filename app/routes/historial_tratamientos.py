@@ -32,3 +32,8 @@ def eliminar_tratamiento(historial_id):
     db.session.commit()
     flash('Tratamiento eliminado con éxito.', 'success')
     return redirect(url_for('historial_tratamientos.ver_historial', paciente_id=paciente_id))
+
+@historial_tratamientos_bp.route('/pacientes')
+def seleccionar_paciente():
+    pacientes = Paciente.query.all()
+    return render_template('historial/seleccionar_paciente.html', pacientes=pacientes)
