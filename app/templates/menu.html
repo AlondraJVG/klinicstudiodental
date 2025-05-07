@@ -61,7 +61,7 @@
                 <i class="fas fa-chevron-down flecha"></i>
             </a>
             <ul class="submenu-items">
-                <li><a href="{{ url_for('historial_tratamientos.ver_historial',id=tratamiento.id)}}">Ver Historial clínico</a></li>
+                <li><a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}">Ver Historial clínico</a></li>
             </ul>
         </li>
 
