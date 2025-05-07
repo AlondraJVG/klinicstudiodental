@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash,
 from app import db
 from app.models.usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import or_
 
 # Se mantiene el Blueprint
 auth_bp = Blueprint('auth', __name__)
@@ -46,8 +47,45 @@ def register():
 
         db.session.add(nuevo_usuario)
         db.session.commit()
+        flash('Usuario creado con éxito', 'success')
+        return redirect(url_for('auth.login'))
 
-        return 'Usuario creado con éxito'
+@auth_bp.route('/usuarios')
+def listar_usuarios():
+    busqueda = request.args.get('busqueda', '')
+    if busqueda:
+        usuarios = Usuario.query.filter(
+            or_(
+                Usuario.nombre.ilike(f"%{busqueda}%"),
+                Usuario.apellidos.ilike(f"%{busqueda}%"),
+                Usuario.correo.ilike(f"%{busqueda}%")
+            )
+        ).all()
+    else:
+        usuarios = Usuario.query.all()
+    return render_template('usuarios/lista_usuarios.html', usuarios=usuarios)
 
-    return render_template('register.html')
+@auth_bp.route('/usuarios/editar/<int:id>', methods=['GET', 'POST'])
+def editar_usuario(id):
+    usuario = Usuario.query.get_or_404(id)
+    if request.method == 'POST':
+        usuario.nombre = request.form['nombre']
+        usuario.apellidos = request.form['apellidos']
+        usuario.correo = request.form['correo']
 
+        if request.form.get('contrasena'):
+            usuario.contrasena = generate_password_hash(request.form['contrasena'])
+
+        db.session.commit()
+        flash('Usuario actualizado exitosamente')
+        return redirect(url_for('auth.listar_usuarios'))
+
+    return render_template('usuarios/editar_usuario.html', usuario=usuario)
+
+@auth_bp.route('/usuarios/eliminar/<int:id>', methods=['POST'])
+def eliminar_usuario(id):
+    usuario = Usuario.query.get_or_404(id)
+    db.session.delete(usuario)
+    db.session.commit()
+    flash('Usuario eliminado exitosamente')
+    return redirect(url_for('auth.listar_usuarios'))

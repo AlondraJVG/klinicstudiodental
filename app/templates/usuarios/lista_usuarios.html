@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Usuarios{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Usuarios Registrados</h2>
+    <a href="{{ url_for('auth.register') }}" class="btn btn-success mb-3">Agregar Usuario</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.nombre }} {{ usuario.apellidos }}</td>
+                <td>{{ usuario.correo }}</td>
+                <td>
+                    <a href="{{ url_for('usuarios.editar_usuario', id=usuario.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="{{ url_for('usuarios.eliminar_usuario', id=usuario.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

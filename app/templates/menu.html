@@ -69,8 +69,17 @@
             </ul>
         </li>
         </li>
-        
-        <li><a href="{{ url_for('auth.register') }}">Nuevo Usuario</a></li>
+        <li class="submenu">
+            <a href="#" class="submenu-toggle">
+                <img src="{{ url_for('static', filename='imagenes/agregar-usuario.png') }}" class="icono-menu">
+                <span>Usuarios</span>
+                <i class="fas fa-chevron-down flecha"></i>
+            </a>
+            <ul class="submenu-items">
+                <li><a href="{{ url_for('auth.register') }}">Nuevo Usuario</a></li>
+                <li><a href="{{ url_for('paciente.nuevo_paciente') }}">Nuevo Paciente</a></li>
+            </ul>
+        </li>
     </ul>
 
     <script>

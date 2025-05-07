@@ -27,6 +27,8 @@ def create_app():
     from app.routes.tratamiento import tratamiento_bp
     from app.routes.historial_tratamientos import historial_tratamientos_bp
 
+
+
     app.register_blueprint(auth_bp)
     app.register_blueprint(paciente_bp)
     app.register_blueprint(cita_bp)
