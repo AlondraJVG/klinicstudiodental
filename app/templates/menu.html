@@ -54,8 +54,17 @@
             </ul>
         </li>
 
-        <li><a href="#"><i class="fas fa-file-alt"></i><span>Files</span></a></li>
-        <li><a href="#"><i class="fas fa-gamepad"></i><span>Games</span></a></li>
+        <li class="submenu">
+            <a href="#" class="submenu-toggle">
+                <i class="fas fa-tooth"></i>
+                <span>Historial Clinico</span>
+                <i class="fas fa-chevron-down flecha"></i>
+            </a>
+            <ul class="submenu-items">
+                <li><a href="{{ url_for('historial/ver_historial') }}">Ver Historial clinico</a></li>
+
+            </ul>
+        </li>
 
 
         <li><a href="#"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
