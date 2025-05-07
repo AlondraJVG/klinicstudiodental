@@ -5,7 +5,7 @@ from app.models.Citas import Cita
 from app.models.Tratamiento import Tratamiento 
 from datetime import datetime, timedelta, date
 from app.utils.correo import enviar_correo
-import pytz
+from app.utils.tiempo import ahora_gdl
 
 zona_horaria_gdl = pytz.timezone('America/Mexico_City')
 
@@ -42,7 +42,7 @@ def crear_cita():
         fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
         hora = datetime.strptime(hora_str, '%H:%M').time()
         datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
-        ahora = datetime.now(zona_horaria_gdl)
+        ahora = ahora_gdl()
 
         # Validación: no puede estar en el pasado
         if datetime_cita < ahora:
@@ -131,9 +131,9 @@ def editar_cita(id):
         # Convertir fecha y hora
         fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
         hora = datetime.strptime(hora_str, '%H:%M').time()
-        datetime_cita = datetime.combine(fecha, hora)
-        ahora = datetime.now()
-
+        datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
+        ahora = ahora_gdl()
+        
         # Validación 1: No en el pasado
         if datetime_cita < ahora:
             flash('No puedes reprogramar una cita a una fecha y hora en el pasado.', 'danger')
