@@ -15,7 +15,7 @@ def ver_historial(paciente_id):
 # Editar un tratamiento del historial
 @historial_tratamientos_bp.route('/editar/<int:historial_id>', methods=['GET', 'POST'])
 def editar_tratamiento(historial_id):
-    historial = HistorialTratamientos.query.get_or_404(historial_id)
+    historial = HistorialTratamientos.query.get_or_404(historial_id)  
     if request.method == 'POST':
         historial.fecha = request.form['fecha']
         historial.observaciones = request.form['observaciones']
@@ -23,6 +23,7 @@ def editar_tratamiento(historial_id):
         flash('Tratamiento actualizado con éxito.', 'success')
         return redirect(url_for('historial_tratamientos.ver_historial', paciente_id=historial.paciente_id))
     return render_template('historial/editar_tratamiento.html', historial=historial)
+
 
 # Eliminar un tratamiento
 @historial_tratamientos_bp.route('/eliminar/<int:historial_id>', methods=['POST'])
