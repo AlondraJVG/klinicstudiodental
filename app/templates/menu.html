@@ -43,14 +43,10 @@
             </a>
             <ul class="submenu-items">
                 <li><a href="{{ url_for('tratamientos.crear_tratamiento') }}">Crear Tratamiento</a></li>
-                {% for tratamiento in tratamientos %}
-                <li><a href="{{ url_for('tratamientos.editar_tratamiento', id=tratamiento.id) }}">Editar Tratamiento</a>
-                </li>
-                {% endfor %}
-                <li><a href="{{ url_for('tratamientos.listar_tratamientos') }}">Ver Tratamiento</a></li>
-
+                <li><a href="{{ url_for('tratamientos.listar_tratamientos') }}">Ver Tratamientos</a></li>
             </ul>
         </li>
+
 
         <li class="submenu">
             <a href="#" class="submenu-toggle">
