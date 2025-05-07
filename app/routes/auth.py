@@ -47,8 +47,11 @@ def register():
 
         db.session.add(nuevo_usuario)
         db.session.commit()
+
         flash('Usuario creado con éxito', 'success')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.login'))  
+
+    return render_template('usuarios/registrar_usuario.html')
 
 @auth_bp.route('/usuarios')
 def listar_usuarios():
