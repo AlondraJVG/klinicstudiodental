@@ -5,6 +5,9 @@ from app.models.Citas import Cita
 from app.models.Tratamiento import Tratamiento 
 from datetime import datetime, timedelta, date
 from app.utils.correo import enviar_correo
+import pytz
+
+zona_horaria_gdl = pytz.timezone('America/Mexico_City')
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 
@@ -38,8 +41,8 @@ def crear_cita():
         # Convertir fecha y hora
         fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
         hora = datetime.strptime(hora_str, '%H:%M').time()
-        datetime_cita = datetime.combine(fecha, hora)
-        ahora = datetime.now()
+        datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
+        ahora = datetime.now(zona_horaria_gdl)
 
         # Validación: no puede estar en el pasado
         if datetime_cita < ahora:
