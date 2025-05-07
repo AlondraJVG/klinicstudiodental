@@ -1,11 +1,10 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, current_app
+from flask import Blueprint, request, render_template, redirect, url_for, flash, session
 from app import db
 from app.models.usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Se mantiene el Blueprint
 auth_bp = Blueprint('auth', __name__)
-
 
 # Ruta de login
 @auth_bp.route('/', methods=['GET', 'POST'])
@@ -16,38 +15,23 @@ def login():
         usuario = Usuario.query.filter_by(correo=correo).first()
 
         if usuario and check_password_hash(usuario.contrasena, contrasena):
-            return render_template('menu.html')
+            session['usuario_id'] = usuario.id
+            flash('Inicio de sesión exitoso', 'success')
+            return redirect(url_for('auth.menu'))  
         else:
-            if usuario:
-                flash('Contraseña incorrecta', 'error')
-            else:
-                flash('Correo no encontrado', 'error')
-            return redirect(url_for('auth.login')) 
+            flash('Correo o contraseña incorrectos', 'error')
+            return redirect(url_for('auth.login'))
 
     return render_template('login.html')
 
-# Ruta de registro dentro del Blueprint
-@auth_bp.route('/register', methods=['GET', 'POST'])  
-def register():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        apellidos = request.form['apellidos']
-        correo = request.form['correo']
-        contrasena = request.form['contrasena']
+# Ruta para el menú principal
+@auth_bp.route('/menu')
+def menu():
+    # Recupera el usuario desde la sesión
+    usuario_id = session.get('usuario_id')
+    if not usuario_id:
+        flash('Por favor, inicia sesión primero.', 'error')
+        return redirect(url_for('auth.login'))
 
-        contrasena_hash = generate_password_hash(contrasena)
-
-        nuevo_usuario = Usuario(
-            nombre=nombre,
-            apellidos=apellidos,
-            correo=correo,
-            contrasena=contrasena_hash
-        )
-
-        db.session.add(nuevo_usuario)
-        db.session.commit()
-
-        return 'Usuario creado con éxito'
-
-    return render_template('register.html')
-
+    usuario = Usuario.query.get_or_404(usuario_id)
+    return render_template('menu.html', paciente=usuario)

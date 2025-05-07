@@ -5,8 +5,8 @@
 
 <div class="container-fluid mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="text-primary">Historial de Tratamientos - {{ paciente.nombre }} {{ paciente.apellido }}</h3>
-        <a href="{{ url_for('citas.listar_citas') }}" class="btn btn-secondary">Volver a Citas</a>
+        <h3 class="text-primary">Historial de Tratamientos de {{ paciente.nombre }} {{ paciente.apellido }}</h3>
+        <a href="{{ url_for('historial_tratamientos.editar_tratamiento', historial_id=historial.id) }}" class="btn btn-primary">+ Nuevo Tratamiento</a>
     </div>
 
     <!-- Flash Messages -->
@@ -29,24 +29,23 @@
                     <thead class="table-primary">
                         <tr>
                             <th>ID</th>
-                            <th>Tratamiento</th>
                             <th>Fecha</th>
                             <th>Observaciones</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in historial %}
+                        {% for tratamiento in historial %}
                         <tr>
-                            <td>{{ item.id }}</td>
-                            <td>{{ item.tratamiento.nombre }}</td>
-                            <td>{{ item.fecha.strftime('%d/%m/%Y') }}</td>
-                            <td>{{ item.observaciones or 'Sin observaciones' }}</td>
+                            <td>{{ tratamiento.id }}</td>
+                            <td>{{ tratamiento.fecha.strftime('%d/%m/%Y') }}</td>
+                            <td>{{ tratamiento.observaciones }}</td>
                             <td>
-                                <a href="{{ url_for('historial_tratamientos.editar_tratamiento', historial_id=item.id) }}" class="btn btn-sm btn-editar mb-1">Editar</a>
-                                
-                                <form action="{{ url_for('historial_tratamientos.eliminar_tratamiento', historial_id=item.id) }}" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn btn-sm btn-eliminar" onclick="return confirm('¿Seguro que deseas eliminar este tratamiento?')">Eliminar</button>
+                                <a href="{{ url_for('historial_tratamientos.editar_tratamiento', historial_id=tratamiento.id) }}" class="btn btn-sm btn-editar mb-1">Editar</a>
+
+                                <form action="{{ url_for('historial_tratamientos.eliminar_tratamiento', historial_id=tratamiento.id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-eliminar"
+                                        onclick="return confirm('¿Estás seguro de eliminar este tratamiento?')">Eliminar</button>
                                 </form>
                             </td>
                         </tr>
@@ -55,7 +54,7 @@
                 </table>
             </div>
             {% else %}
-            <p class="text-muted text-center">No hay tratamientos registrados para este paciente.</p>
+            <p class="text-muted text-center">No hay tratamientos registrados.</p>
             {% endif %}
         </div>
     </div>

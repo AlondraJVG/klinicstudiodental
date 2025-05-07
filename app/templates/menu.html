@@ -57,13 +57,17 @@
         <li class="submenu">
             <a href="#" class="submenu-toggle">
                 <i class="fas fa-tooth"></i>
-                <span>Historial Clinico</span>
+                <span>Historial Clínico</span>
                 <i class="fas fa-chevron-down flecha"></i>
             </a>
             <ul class="submenu-items">
-                <li><a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}">Ver Historial clínico</a></li>
+                <li>
+                    <a href="{{ url_for('historial_tratamientos.ver_historial', paciente_id=paciente.id) }}">Ver
+                        Historial clínico</a>
+                </li>
             </ul>
         </li>
+
 
 
         <li><a href="#"><i class="fas fa-bell"></i><span>Notifications</span></a></li>
