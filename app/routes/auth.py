@@ -51,7 +51,7 @@ def register():
         flash('Usuario creado con éxito', 'success')
         return redirect(url_for('auth.login'))  
 
-    return render_template('usuarios/registrar_usuario.html')
+    return render_template('usuarios/register.html')
 
 @auth_bp.route('/usuarios')
 def listar_usuarios():
