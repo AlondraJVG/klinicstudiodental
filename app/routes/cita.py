@@ -53,12 +53,18 @@ def crear_cita():
         for cita in citas_dia:
             cita_datetime = datetime.combine(cita.fecha, cita.hora)
             diferencia = abs((datetime_cita - cita_datetime).total_seconds()) / 60
-
             if diferencia < 15:
                 flash('Ya hay una cita en ese rango de hora. Debe haber al menos 15 minutos de separación.', 'danger')
                 return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
                                        current_date=date.today().isoformat(),
                                        current_time=datetime.now().strftime('%H:%M'))
+            # Validación: no permitir que el mismo paciente tenga más de una cita el mismo día
+            cita_existente_paciente = Cita.query.filter_by(paciente_id=paciente_id, fecha=fecha).first()
+            if cita_existente_paciente:
+                flash('Este paciente ya tiene una cita registrada para este día.', 'danger')
+                return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
+                                    current_date=date.today().isoformat(),
+                                    current_time=datetime.now().strftime('%H:%M'))
 
         # Crear y guardar la cita
         nueva_cita = Cita(
@@ -70,7 +76,6 @@ def crear_cita():
             notas=notas,
             estado=estado
         )
-
         db.session.add(nueva_cita)
         db.session.commit()
 
@@ -126,20 +131,29 @@ def editar_cita(id):
         datetime_cita = datetime.combine(fecha, hora)
         ahora = datetime.now()
 
-        # Validación: No en el pasado
+        # Validación 1: No en el pasado
         if datetime_cita < ahora:
             flash('No puedes reprogramar una cita a una fecha y hora en el pasado.', 'danger')
             return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
-        # Validación: Margen de 15 minutos con otras citas (excluyendo la actual)
+        # Validación 2: No superponerse con otra cita (mínimo 15 minutos de diferencia, excluyendo la misma cita)
         citas_dia = Cita.query.filter(Cita.fecha == fecha, Cita.id != cita.id).all()
         for otra in citas_dia:
             otra_datetime = datetime.combine(otra.fecha, otra.hora)
             diferencia = abs((datetime_cita - otra_datetime).total_seconds()) / 60
-
             if diferencia < 15:
                 flash('Ya existe otra cita en un rango menor a 15 minutos. Cambia la hora.', 'danger')
                 return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
+
+        # Validación 3: El paciente no debe tener otra cita ese mismo día (excluyendo la actual)
+        cita_existente = Cita.query.filter(
+            Cita.paciente_id == paciente_id,
+            Cita.fecha == fecha,
+            Cita.id != cita.id
+        ).first()
+        if cita_existente:
+            flash('Este paciente ya tiene otra cita programada para este día.', 'danger')
+            return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
         # Guardar cambios
         cita.paciente_id = paciente_id
@@ -151,6 +165,7 @@ def editar_cita(id):
         cita.estado = estado
 
         db.session.commit()
+
         # Enviar correo de actualización
         paciente = Paciente.query.get(paciente_id)
         destinatario = paciente.correo
@@ -160,13 +175,12 @@ def editar_cita(id):
             fecha=fecha.strftime('%d/%m/%Y'),
             hora=hora.strftime('%H:%M'),
             motivo=motivo,
-            notas=cita.notas or 'Ninguna',
-            telefono='3318583055',   
-            correo='klinical30@gmail.com', 
+            notas=notas or 'Ninguna',
+            telefono='3318583055',
+            correo='klinical30@gmail.com',
             remitente='Klinic Studio Dental'
         )
 
-        asunto = "Reprogramación de Cita"
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita actualizada correctamente y correo enviado.', 'success')
