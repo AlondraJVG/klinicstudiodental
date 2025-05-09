@@ -41,8 +41,9 @@ def crear_cita():
         # Convertir fecha y hora
         datetime_cita = datetime.strptime(fecha_hora_str, '%Y-%m-%dT%H:%M')
         datetime_cita = zona_horaria_gdl.localize(datetime_cita)
-        datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
 
+        fecha = datetime_cita.date()
+        hora = datetime_cita.time()
         ahora = ahora_gdl()
 
         # Validación: no puede estar en el pasado
@@ -94,14 +95,15 @@ def crear_cita():
         asunto = "Confirmación de cita"
         cuerpo = render_template('correos/cuerpo.html',
             nombre=paciente.nombre,
-            fecha=fecha.strftime('%d/%m/%Y'),
-            hora=hora.strftime('%H:%M'),
+            fecha=datetime_cita.date(),
+            hora=datetime_cita.time(),
             motivo=motivo,
-            notas=notas or 'Ninguna',
+            notas=notas or 'N/A',
             telefono='3318583055',  
             correo='klinical30@gmail.com',  
             remitente='Klinic Studio Dental'
-)
+        )
+
         enviar_correo(destinatario, asunto, cuerpo)
 
         flash('Cita creada exitosamente y correo enviado.', 'success')
@@ -126,16 +128,17 @@ def editar_cita(id):
     if request.method == 'POST':
         paciente_id = request.form['paciente_id']
         tratamiento_id = request.form.get('tratamiento_id') or None
-        fecha_str = request.form['fecha']
-        hora_str = request.form['hora']
+        fecha_hora_str = request.form['fecha']
         motivo = request.form['motivo']
         notas = request.form.get('notas', '')
         estado = request.form['estado']
 
         # Convertir fecha y hora
-        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
-        hora = datetime.strptime(hora_str, '%H:%M').time()
-        datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
+        datetime_cita = datetime.strptime(fecha_hora_str, '%Y-%m-%dT%H:%M')
+        datetime_cita = zona_horaria_gdl.localize(datetime_cita)
+
+        fecha = datetime_cita.date()
+        hora = datetime_cita.time()
 
         ahora = ahora_gdl()
 
