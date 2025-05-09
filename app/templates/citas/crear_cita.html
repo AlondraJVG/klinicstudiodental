@@ -32,8 +32,8 @@
 
                 <div class="col-md-6">
                     <label for="fecha_hora" class="form-label">Fecha y Hora</label>
-                    <input type="datetime-local" name="fecha_hora" id="fecha_hora" class="form-control" required 
-                           min="{{ current_date }}T{{ current_time }}">
+                    <input type="datetime-local" name="fecha_hora" id="fecha_hora" class="form-control" 
+                        value="{{ cita.fecha_hora.strftime('%Y-%m-%dT%H:%M') }}" required>    
                 </div>
                 <div class="mb-3">
                     <label for="motivo" class="form-label">Motivo</label>

@@ -2,12 +2,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
 from app.models.Paciente import Paciente
 from app.models.Citas import Cita
-from app.models.Tratamiento import Tratamiento 
-from datetime import datetime, timedelta, date
+from app.models.Tratamiento import Tratamiento
+from datetime import datetime, date
 from app.utils.correo import enviar_correo
 from app.utils.tiempo import ahora_gdl
 import pytz
-
 
 zona_horaria_gdl = pytz.timezone('America/Mexico_City')
 
@@ -170,7 +169,6 @@ def editar_cita(id):
 
     return render_template('citas/editar_cita.html', cita=cita, pacientes=pacientes, tratamientos=tratamientos)
 
-
 # Eliminar cita
 @cita_bp.route('/eliminar/<int:id>', methods=['POST'])
 def eliminar_cita(id):
@@ -198,4 +196,3 @@ def eliminar_cita(id):
 
     flash('Cita eliminada exitosamente y correo enviado.', 'success')
     return redirect(url_for('citas.listar_citas'))
-
