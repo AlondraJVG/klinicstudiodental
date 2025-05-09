@@ -14,7 +14,7 @@
                         <label for="paciente_id" class="form-label">Paciente</label>
                         <select name="paciente_id" id="paciente_id" class="form-select" required>
                             {% for paciente in pacientes %}
-                                <option value="{{ paciente.id }}">{{ paciente.nombre }} {{ paciente.apellido }}</option>
+                            <option value="{{ paciente.id }}">{{ paciente.nombre }} {{ paciente.apellido }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -24,7 +24,7 @@
                         <select name="tratamiento_id" id="tratamiento_id" class="form-select">
                             <option value="">-- Sin tratamiento asignado --</option>
                             {% for tratamiento in tratamientos %}
-                                <option value="{{ tratamiento.id }}">{{ tratamiento.nombre }}</option>
+                            <option value="{{ tratamiento.id }}">{{ tratamiento.nombre }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -32,8 +32,9 @@
 
                 <div class="col-md-6">
                     <label for="fecha_hora" class="form-label">Fecha y Hora</label>
-                    <input type="datetime-local" name="fecha_hora" id="fecha_hora" class="form-control" 
-                        value="{{ cita.fecha_hora.strftime('%Y-%m-%dT%H:%M') }}" required>    
+                    <input type="datetime-local" name="fecha"
+                        value="{{ cita.fecha_hora.strftime('%Y-%m-%dT%H:%M') if cita else '' }}" required>
+
                 </div>
                 <div class="mb-3">
                     <label for="motivo" class="form-label">Motivo</label>
