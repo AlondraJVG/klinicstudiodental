@@ -14,9 +14,9 @@
                         <label for="paciente_id" class="form-label">Paciente</label>
                         <select name="paciente_id" id="paciente_id" class="form-select" required>
                             {% for paciente in pacientes %}
-                                <option value="{{ paciente.id }}" {% if paciente.id == cita.paciente_id %}selected{% endif %}>
-                                    {{ paciente.nombre }} {{ paciente.apellido }}
-                                </option>
+                            <option value="{{ paciente.id }}" {% if paciente.id==cita.paciente_id %}selected{% endif %}>
+                                {{ paciente.nombre }} {{ paciente.apellido }}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -26,42 +26,40 @@
                         <select name="tratamiento_id" id="tratamiento_id" class="form-select">
                             <option value="">-- Sin tratamiento asignado --</option>
                             {% for tratamiento in tratamientos %}
-                                <option value="{{ tratamiento.id }}" {% if tratamiento.id == cita.tratamiento_id %}selected{% endif %}>
-                                    {{ tratamiento.nombre }}
-                                </option>
+                            <option value="{{ tratamiento.id }}" {% if tratamiento.id==cita.tratamiento_id %}selected{%
+                                endif %}>
+                                {{ tratamiento.nombre }}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="fecha" class="form-label">Fecha</label>
-                        <input type="date" name="fecha" id="fecha" class="form-control" value="{{ cita.fecha_hora.strftime('%Y-%m-%d') }}" required>
-                    </div>
-                
-                    <div class="col-md-6">
-                        <label for="hora" class="form-label">Hora</label>
-                        <input type="time" name="hora" id="hora" class="form-control" value="{{ cita.fecha_hora.strftime('%H:%M') }}" required>
-                    </div>
+                <div class="col-md-6">
+                    <label for="fecha_hora" class="form-label">Fecha y Hora</label>
+                    <input type="datetime-local" name="fecha_hora" id="fecha_hora" class="form-control"
+                        value="{{ cita.fecha_hora.strftime('%Y-%m-%dT%H:%M') }}" required>
                 </div>
-
-                <div class="mb-3">
+                <div class="col-md-6">
                     <label for="motivo" class="form-label">Motivo</label>
-                    <input type="text" name="motivo" id="motivo" class="form-control" value="{{ cita.motivo }}" required>
+                    <input type="text" name="motivo" id="motivo" class="form-control" value="{{ cita.motivo }}"
+                        required>
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6">
                     <label for="notas" class="form-label">Notas adicionales</label>
                     <textarea name="notas" id="notas" class="form-control" rows="3">{{ cita.notas }}</textarea>
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6">
                     <label for="estado" class="form-label">Estado</label>
                     <select name="estado" id="estado" class="form-select" required>
-                        <option value="Programada" {% if cita.estado == 'Programada' %}selected{% endif %}>Programada</option>
-                        <option value="Completada" {% if cita.estado == 'Completada' %}selected{% endif %}>Completada</option>
-                        <option value="Cancelada" {% if cita.estado == 'Cancelada' %}selected{% endif %}>Cancelada</option>
+                        <option value="Programada" {% if cita.estado=='Programada' %}selected{% endif %}>Programada
+                        </option>
+                        <option value="Completada" {% if cita.estado=='Completada' %}selected{% endif %}>Completada
+                        </option>
+                        <option value="Cancelada" {% if cita.estado=='Cancelada' %}selected{% endif %}>Cancelada
+                        </option>
                     </select>
                 </div>
 

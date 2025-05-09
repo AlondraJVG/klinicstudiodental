@@ -36,8 +36,7 @@
                             <th>ID</th>
                             <th>Paciente</th>
                             <th>Tratamiento</th>
-                            <th>Fecha</th>
-                            <th>Hora</th>
+                            <th>Fecha.Hora</th>
                             <th>Motivo</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -50,7 +49,7 @@
                             <td>{{ cita.paciente.nombre }} {{ cita.paciente.apellido }}</td>
                             <td>{{ cita.tratamiento.nombre if cita.tratamiento else 'N/A' }}</td>
                             <td>{{ cita.fecha_hora.strftime('%d/%m/%Y') }}</td>
-                            <td>{{ cita.hora.strftime('%H:%M') }}</td>
+                            <td>{{ cita.fecha_hora.strftime('%H:%M') }}</td>
                             <td>{{ cita.motivo }}</td>
                             <td>{{ cita.estado }}</td>
                             <td>

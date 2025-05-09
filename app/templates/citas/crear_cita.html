@@ -30,18 +30,11 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="fecha" class="form-label">Fecha</label>
-                        <input type="date" name="fecha" id="fecha" class="form-control" required min="{{ current_date }}">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="hora" class="form-label">Hora</label>
-                        <input type="time" name="hora" id="hora" class="form-control" required min="{{ current_time }}">
-                    </div>
+                <div class="col-md-6">
+                    <label for="fecha_hora" class="form-label">Fecha y Hora</label>
+                    <input type="datetime-local" name="fecha_hora" id="fecha_hora" class="form-control" required 
+                           min="{{ current_date }}T{{ current_time }}">
                 </div>
-
                 <div class="mb-3">
                     <label for="motivo" class="form-label">Motivo</label>
                     <input type="text" name="motivo" id="motivo" class="form-control" required>
