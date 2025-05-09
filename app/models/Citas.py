@@ -1,4 +1,3 @@
-# app/models/Citas.py
 from app import db
 from app.models.Paciente import Paciente
 from sqlalchemy import DateTime

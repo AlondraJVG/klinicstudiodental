@@ -37,12 +37,12 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="fecha" class="form-label">Fecha</label>
-                        <input type="date" name="fecha" id="fecha" class="form-control" value="{{ cita.fecha }}" required>
+                        <input type="date" name="fecha" id="fecha" class="form-control" value="{{ cita.fecha_hora.strftime('%Y-%m-%d') }}" required>
                     </div>
-
+                
                     <div class="col-md-6">
                         <label for="hora" class="form-label">Hora</label>
-                        <input type="time" name="hora" id="hora" class="form-control" value="{{ cita.hora.strftime('%H:%M') }}" required>
+                        <input type="time" name="hora" id="hora" class="form-control" value="{{ cita.fecha_hora.strftime('%H:%M') }}" required>
                     </div>
                 </div>
 

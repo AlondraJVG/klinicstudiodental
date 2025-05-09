@@ -49,7 +49,7 @@
                             <td>{{ cita.id }}</td>
                             <td>{{ cita.paciente.nombre }} {{ cita.paciente.apellido }}</td>
                             <td>{{ cita.tratamiento.nombre if cita.tratamiento else 'N/A' }}</td>
-                            <td>{{ cita.fecha.strftime('%d/%m/%Y') }}</td>
+                            <td>{{ cita.fecha_hora.strftime('%d/%m/%Y') }}</td>
                             <td>{{ cita.hora.strftime('%H:%M') }}</td>
                             <td>{{ cita.motivo }}</td>
                             <td>{{ cita.estado }}</td>

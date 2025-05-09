@@ -65,7 +65,11 @@ def crear_cita():
                                        current_date=date.today().isoformat(),
                                        current_time=datetime.now().strftime('%H:%M'))
             # Validación: no permitir que el mismo paciente tenga más de una cita el mismo día
-            cita_existente_paciente = Cita.query.filter_by(paciente_id=paciente_id, fecha=fecha).first()
+            cita_existente_paciente = Cita.query.filter(
+                Cita.paciente_id == paciente_id,
+                db.func.date(Cita.fecha_hora) == fecha
+            ).first()
+
             if cita_existente_paciente:
                 flash('Este paciente ya tiene una cita registrada para este día.', 'danger')
                 return render_template('citas/crear_cita.html', pacientes=pacientes, tratamientos=tratamientos,
@@ -178,8 +182,8 @@ def eliminar_cita(id):
     asunto = "Cita cancelada"
     cuerpo_html = render_template('correos/cancelacion.html',  
         nombre=paciente.nombre,
-        fecha=cita.fecha.strftime('%d/%m/%Y'),
-        hora=cita.hora.strftime('%H:%M'),
+        fecha=cita.fecha_hora.strftime('%d/%m/%Y'),
+        hora=cita.fecha_hora.strftime('%H:%M'),
         motivo=cita.motivo,
         telefono='3318583055',   
         correo='klinical30@gmail.com', 
