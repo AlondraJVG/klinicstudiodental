@@ -33,15 +33,14 @@ def crear_cita():
     if request.method == 'POST':
         paciente_id = request.form['paciente_id']
         tratamiento_id = request.form.get('tratamiento_id') or None
-        fecha_str = request.form['fecha']
-        hora_str = request.form['hora']
+        fecha_hora_str = request.form['fecha']  
         motivo = request.form['motivo']
         notas = request.form.get('notas', '')
         estado = request.form['estado']
 
         # Convertir fecha y hora
-        fecha = datetime.strptime(fecha_str, '%Y-%m-%d').date()
-        hora = datetime.strptime(hora_str, '%H:%M').time()
+        datetime_cita = datetime.strptime(fecha_hora_str, '%Y-%m-%dT%H:%M')
+        datetime_cita = zona_horaria_gdl.localize(datetime_cita)
         datetime_cita = zona_horaria_gdl.localize(datetime.combine(fecha, hora))
 
         ahora = ahora_gdl()
