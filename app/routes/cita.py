@@ -198,3 +198,4 @@ def eliminar_cita(id):
 
     flash('Cita eliminada exitosamente y correo enviado.', 'success')
     return redirect(url_for('citas.listar_citas'))
+
