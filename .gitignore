@@ -15,4 +15,6 @@ venv/
 # Archivos de sistema (Windows/Mac)
 .DS_Store
 Thumbs.db
+#configuracion y contraseñas
+config.py
 
