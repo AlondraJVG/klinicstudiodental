@@ -1,17 +1,20 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
 from app.models.Tratamiento import Tratamiento
+from flask_login import login_required
 
 tratamiento_bp = Blueprint('tratamientos', __name__, url_prefix='/tratamientos')
 
 # Listar tratamientos
 @tratamiento_bp.route('/')
+@login_required
 def listar_tratamientos():
     tratamientos = Tratamiento.query.all()
     return render_template('tratamientos/listar_tratamientos.html', tratamientos=tratamientos)
 
 # Crear nuevo tratamiento
 @tratamiento_bp.route('/nuevo', methods=['GET', 'POST'])
+@login_required
 def crear_tratamiento():
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -28,6 +31,7 @@ def crear_tratamiento():
 
 # Editar tratamiento
 @tratamiento_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_tratamiento(id):
     tratamiento = Tratamiento.query.get_or_404(id)
 
@@ -43,6 +47,7 @@ def editar_tratamiento(id):
 
 # Eliminar tratamiento
 @tratamiento_bp.route('/eliminar/<int:id>', methods=['POST'])
+@login_required
 def eliminar_tratamiento(id):
     tratamiento = Tratamiento.query.get_or_404(id)
     db.session.delete(tratamiento)

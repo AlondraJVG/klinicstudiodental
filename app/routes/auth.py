@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import or_
 from flask import session
 
+
 # Se mantiene el Blueprint
 auth_bp = Blueprint('auth', __name__)
 
@@ -30,7 +31,8 @@ def login():
     return render_template('login.html')
 
 # Ruta de registro dentro del Blueprint
-@auth_bp.route('/register', methods=['GET', 'POST'])  
+@auth_bp.route('/register', methods=['GET', 'POST']) 
+@login_required 
 def register():
     if request.method == 'POST':
         nombre = request.form['nombre']

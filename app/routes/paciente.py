@@ -3,6 +3,7 @@ from datetime import datetime, date
 from app import db
 from app.models.Paciente import Paciente
 from sqlalchemy import or_, and_
+from flask_login import login_required
 
 paciente_bp = Blueprint('paciente', __name__, template_folder='templates')
 
@@ -12,6 +13,7 @@ def calcular_edad(fecha_nacimiento):
 
 
 @paciente_bp.route('/pacientes')
+@login_required
 def lista_pacientes():
     busqueda = request.args.get('busqueda', '')  
     if busqueda:
@@ -26,6 +28,7 @@ def lista_pacientes():
     return render_template('pacientes.html', pacientes=pacientes)
 
 @paciente_bp.route('/pacientes/nuevo', methods=['GET', 'POST'])
+@login_required
 def nuevo_paciente():
     if request.method == 'POST':
         nombre = request.form['nombre'].strip()
@@ -91,6 +94,7 @@ def nuevo_paciente():
     
 
 @paciente_bp.route('/pacientes/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_paciente(id):
     paciente = Paciente.query.get_or_404(id)
     if request.method == 'POST':
@@ -113,6 +117,7 @@ def editar_paciente(id):
     return render_template('editar_paciente.html', paciente=paciente)
 
 @paciente_bp.route('/pacientes/eliminar/<int:id>', methods=['POST'])
+@login_required
 def eliminar_paciente(id):
     paciente = Paciente.query.get_or_404(id)
     db.session.delete(paciente)

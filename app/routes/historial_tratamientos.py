@@ -2,11 +2,13 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db
 from app.models.Paciente import Paciente
 from app.models.Historial_Tratamientos import HistorialTratamientos
+from flask_login import login_required
 
 historial_tratamientos_bp = Blueprint('historial_tratamientos', __name__, url_prefix='/historial')
 
 # Ver historial de tratamientos de un paciente
 @historial_tratamientos_bp.route('/historial/<int:paciente_id>', methods=['GET'])
+@login_required
 def ver_historial(paciente_id):
     paciente = Paciente.query.get_or_404(paciente_id)
     historial = HistorialTratamientos.query.filter_by(paciente_id=paciente_id).all() 
@@ -14,6 +16,7 @@ def ver_historial(paciente_id):
 
 # Editar un tratamiento del historial
 @historial_tratamientos_bp.route('/editar/<int:historial_id>', methods=['GET', 'POST'])
+@login_required
 def editar_tratamiento(historial_id):
     historial = HistorialTratamientos.query.get_or_404(historial_id)  
     if request.method == 'POST':
@@ -27,6 +30,7 @@ def editar_tratamiento(historial_id):
 
 # Eliminar un tratamiento
 @historial_tratamientos_bp.route('/eliminar/<int:historial_id>', methods=['POST'])
+@login_required
 def eliminar_tratamiento(historial_id):
     historial = HistorialTratamientos.query.get_or_404(historial_id)
     paciente_id = historial.paciente_id
@@ -50,6 +54,7 @@ def nuevo_tratamiento(paciente_id):
     return render_template('historial/nuevo_tratamiento.html', paciente_id=paciente_id)
 
 @historial_tratamientos_bp.route('/seleccionar', methods=['GET'])
+@login_required
 def seleccionar_paciente():
     pacientes = Paciente.query.all()
     return render_template('historial/seleccionar_paciente.html', pacientes=pacientes)

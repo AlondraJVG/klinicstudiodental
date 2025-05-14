@@ -7,6 +7,8 @@ from datetime import datetime, date
 from app.utils.correo import enviar_correo
 from app.utils.tiempo import ahora_gdl
 import pytz
+from flask_login import login_required
+
 
 zona_horaria_gdl = pytz.timezone('America/Mexico_City')
 
@@ -14,6 +16,7 @@ cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 
 # Mostrar todas las citas
 @cita_bp.route('/')
+@login_required
 def listar_citas():
     busqueda = request.args.get('busqueda', '')
     if busqueda:
@@ -26,6 +29,7 @@ def listar_citas():
 
 # Crear nueva cita
 @cita_bp.route('/nueva', methods=['GET', 'POST'])
+@login_required
 def crear_cita():
     pacientes = Paciente.query.all()
     tratamientos = Tratamiento.query.all()
@@ -120,6 +124,7 @@ def crear_cita():
 
 # Editar cita
 @cita_bp.route('/editar/<int:id>', methods=['GET', 'POST'])
+@login_required
 def editar_cita(id):
     cita = Cita.query.get_or_404(id)
     pacientes = Paciente.query.all()
@@ -173,6 +178,7 @@ def editar_cita(id):
 
 # Eliminar cita
 @cita_bp.route('/eliminar/<int:id>', methods=['POST'])
+@login_required
 def eliminar_cita(id):
     cita = Cita.query.get_or_404(id)
     paciente = Paciente.query.get(cita.paciente_id)
