@@ -9,7 +9,7 @@ from app.utils.tiempo import ahora_gdl
 import pytz
 from flask_login import login_required
 
-
+login_manager.login_view = 'auth.login'
 zona_horaria_gdl = pytz.timezone('America/Mexico_City')
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')

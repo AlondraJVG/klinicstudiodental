@@ -5,6 +5,7 @@ from app.models.Paciente import Paciente
 from sqlalchemy import or_, and_
 from flask_login import login_required
 
+login_manager.login_view = 'auth.login'
 paciente_bp = Blueprint('paciente', __name__, template_folder='templates')
 
 def calcular_edad(fecha_nacimiento):

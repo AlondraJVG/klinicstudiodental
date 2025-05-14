@@ -4,6 +4,8 @@ from app.models.Paciente import Paciente
 from app.models.Historial_Tratamientos import HistorialTratamientos
 from flask_login import login_required
 
+login_manager.login_view = 'auth.login'
+
 historial_tratamientos_bp = Blueprint('historial_tratamientos', __name__, url_prefix='/historial')
 
 # Ver historial de tratamientos de un paciente
