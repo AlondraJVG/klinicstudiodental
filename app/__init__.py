@@ -2,7 +2,10 @@ from flask import Flask
 from markupsafe import Markup
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
-from config import get_config  
+from flask_login import LoginManager
+from config import get_config
+from datetime import timedelta
+
 
 db = SQLAlchemy()
 mail = Mail()
