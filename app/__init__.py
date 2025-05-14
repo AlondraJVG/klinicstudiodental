@@ -1,17 +1,19 @@
-from flask import Flask, Markup
+from flask import Flask
+from markupsafe import Markup
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail 
-from config import Config
+from flask_mail import Mail
+from config import get_config  # Corregido: importar la función correctamente
 
 db = SQLAlchemy()
-mail = Mail()  
+mail = Mail()
 
 def create_app():
+    """Crea una instancia de la aplicación Flask."""
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(get_config())  # Cargar la configuración según el entorno
 
     db.init_app(app)
-    mail.init_app(app)  #
+    mail.init_app(app)
 
     # Filtro personalizado para saltos de línea
     @app.template_filter('nl2br')
@@ -27,13 +29,10 @@ def create_app():
     from app.routes.tratamiento import tratamiento_bp
     from app.routes.historial_tratamientos import historial_tratamientos_bp
 
-
-
     app.register_blueprint(auth_bp)
     app.register_blueprint(paciente_bp)
     app.register_blueprint(cita_bp)
     app.register_blueprint(tratamiento_bp)
     app.register_blueprint(historial_tratamientos_bp)
-
 
     return app
