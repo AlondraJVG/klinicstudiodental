@@ -10,3 +10,4 @@ class Diente(db.Model):
 
     def __repr__(self):
         return f'<Diente {self.numero_diente} - {self.ubicacion}>'
+
