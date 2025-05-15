@@ -13,6 +13,7 @@ zona_horaria_gdl = pytz.timezone('America/Mexico_City')
 
 cita_bp = Blueprint('citas', __name__, url_prefix='/citas')
 
+
 # Mostrar todas las citas
 @cita_bp.route('/')
 @login_required

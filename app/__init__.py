@@ -19,6 +19,7 @@ def create_app():
     app.secret_key = 'clave-secreta'
     app.permanent_session_lifetime = timedelta(minutes=5)
     login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
 
     db.init_app(app)
     mail.init_app(app)
