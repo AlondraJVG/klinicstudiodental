@@ -19,16 +19,19 @@ def create_app():
     app.secret_key = 'clave-secreta'
     app.permanent_session_lifetime = timedelta(minutes=5)
     login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
 
     db.init_app(app)
     mail.init_app(app)
-
+    
     @app.template_filter('nl2br')
     def nl2br_filter(s):
         if not isinstance(s, str):
             return ''
         return Markup(s.replace('\n', '<br>\n'))
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return Usuario.query.get(int(user_id))
 
     from app.routes.auth import auth_bp
     from app.routes.paciente import paciente_bp
@@ -45,8 +48,3 @@ def create_app():
     from app.models import usuario
 
     return app
-
-@login_manager.user_loader
-def load_user(user_id):
-    from app.models.usuario import Usuario 
-    return Usuario.query.get(int(user_id))
