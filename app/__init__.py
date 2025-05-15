@@ -5,26 +5,23 @@ from flask_mail import Mail
 from flask_login import LoginManager
 from config import get_config
 from datetime import timedelta
-from app.models.usuario import Usuario
-
 
 db = SQLAlchemy()
 mail = Mail()
 login_manager = LoginManager()
-
 login_manager.login_view = 'auth.login'
 
 def create_app():
+    """Crea una instancia de la aplicación Flask."""
     app = Flask(__name__)
     app.config.from_object(get_config()) 
 
     app.secret_key = 'clave-secreta'
-    app.permanent_session_lifetime = timedelta(minutes=5)  
+    app.permanent_session_lifetime = timedelta(minutes=5)
+    login_manager.init_app(app)
 
     db.init_app(app)
     mail.init_app(app)
-    login_manager.init_app(app)
-
 
     @app.template_filter('nl2br')
     def nl2br_filter(s):
@@ -44,6 +41,11 @@ def create_app():
     app.register_blueprint(tratamiento_bp)
     app.register_blueprint(historial_tratamientos_bp)
 
+    from app.models import usuario
+
     return app
+
+@login_manager.user_loader
 def load_user(user_id):
-    return Usuario.query.get(int(user_id))
+    from app.models.usuario import Usuario 
+    return Usuario.query.get(int(user_id)
