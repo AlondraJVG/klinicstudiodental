@@ -3,7 +3,6 @@ from app import db
 from app.models.Tratamiento import Tratamiento
 from flask_login import login_required
 
-login_manager.login_view = 'auth.login'
 tratamiento_bp = Blueprint('tratamientos', __name__, url_prefix='/tratamientos')
 
 # Listar tratamientos

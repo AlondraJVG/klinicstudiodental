@@ -4,7 +4,6 @@ from app import db
 from app.models.Paciente import Paciente
 from sqlalchemy import or_, and_
 from app import login_manager
-from flask_login import login_required
 
 login_manager.login_view = 'auth.login'
 paciente_bp = Blueprint('paciente', __name__, template_folder='templates')
