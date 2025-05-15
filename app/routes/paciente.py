@@ -9,7 +9,7 @@ from flask_login import login_required, current_user
 
 
 login_manager.login_view = 'auth.login'
-paciente_bp = Blueprint('paciente', __name__, template_folder='templates')
+paciente_bp = Blueprint('paciente', __name__, url_prefix='/pacientes', template_folder='templates')
 
 def calcular_edad(fecha_nacimiento):
     hoy = date.today()
