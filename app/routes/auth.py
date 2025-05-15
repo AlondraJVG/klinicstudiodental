@@ -30,7 +30,6 @@ def login():
 
     return render_template('login.html')
 
-# Ruta de registro dentro del Blueprint
 @auth_bp.route('/register', methods=['GET', 'POST']) 
 @login_required 
 def register():
