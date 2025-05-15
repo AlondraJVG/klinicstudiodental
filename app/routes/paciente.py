@@ -4,7 +4,8 @@ from app import db
 from app.models.Paciente import Paciente
 from sqlalchemy import or_, and_
 from app import login_manager
-from flask_login import login_required
+from flask_login import login_required, current_user  
+
 
 
 login_manager.login_view = 'auth.login'
