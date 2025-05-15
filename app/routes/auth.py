@@ -23,7 +23,7 @@ def login():
         if usuario and check_password_hash(usuario.contrasena, contrasena):
             login_user(usuario)
             session.permanent = True
-            return redirect(url_for('auth.lista_pacientes'))
+            return redirect(url_for('paciente.lista_pacientes'))
         else:
             flash('Correo o contraseña incorrectos', 'error')
             return redirect(url_for('auth.login'))
