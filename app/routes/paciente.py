@@ -72,10 +72,10 @@ def nuevo_paciente():
         edad = calcular_edad(fecha_nacimiento)
         sexo = request.form['sexo']
         tipo_sangre = request.form['tipo_sangre']
+        alergias =request.form['alergias']
         telefono = request.form['telefono']
         contacto_emergencia = request.form['contacto_emergencia']
         nombre_contacto = request.form['nombre_contacto']
-        alergias =request.form['alergias']
 
         nuevo = Paciente(
             nombre=nombre_lower,
@@ -84,12 +84,12 @@ def nuevo_paciente():
             edad=edad,
             sexo=sexo,
             tipo_sangre=tipo_sangre,
+            alergias = alergias,
             correo=correo_lower,
             telefono=telefono,
             contacto_emergencia=contacto_emergencia,
-            nombre_contacto=nombre_contacto,
-            alergias = alergias
-
+            nombre_contacto=nombre_contacto
+        
         )
         db.session.add(nuevo)
         db.session.commit()

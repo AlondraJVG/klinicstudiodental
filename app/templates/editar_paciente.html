@@ -46,6 +46,11 @@
                 value="{{ paciente.tipo_sangre }}" required>
         </div>
         <div class="mb-3">
+            <label for="alergias" class="form-label">Alergias:</label>
+            <input type="text" class="form-control" id="alergias" name="alergias" value="{{ paciente.alergias }}">
+        </div>
+
+        <div class="mb-3">
             <label for="correo" class="form-label">Correo Electrónico</label>
             <input type="email" class="form-control" id="correo" name="correo" value="{{ paciente.correo }}" required>
         </div>
