@@ -19,17 +19,15 @@ def ver_calendario():
     return render_template('calendario/calendario.html', eventos=eventos)
 
 @calendario_bp.route('/calendario/eventos')
-@login_required
 def obtener_eventos():
     citas = Cita.query.all()
     eventos = []
 
     for cita in citas:
         eventos.append({
-            'title': f'Cita con {cita.paciente.nombre} {cita.paciente.apellido}',
-            'start': cita.fecha_hora.strftime('%Y-%m-%dT%H:%M:%S'),
-            'end': (cita.fecha_hora + timedelta(minutes=30)).strftime('%Y-%m-%dT%H:%M:%S'),
-            'url': f'/citas/{cita.id}',  
+            "title": f"Cita con {cita.paciente.nombre}", 
+            "start": cita.fecha.strftime('%Y-%m-%dT%H:%M:%S'),
+            "url": f"/cita/{cita.id}"  
         })
 
     return jsonify(eventos)
