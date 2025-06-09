@@ -7,15 +7,15 @@ calendario_bp = Blueprint('calendario', __name__, url_prefix='/calendario')
 @calendario_bp.route('/')
 @login_required
 def ver_calendario():
-    citas = Cita.query.all()
+    from sqlalchemy.orm import joinedload
+    citas = Cita.query.options(joinedload(Cita.paciente)).all()
     eventos = []
     for cita in citas:
-        print("Cita ID:", cita.id)
-        print("Paciente:", getattr(cita, 'paciente', 'No encontrado'))
+        paciente_nombre = f"{cita.paciente.nombre} {cita.paciente.apellido}" if cita.paciente else "Paciente desconocido"
         eventos.append({
-            'title': f'Cita con {getattr(cita.paciente, "nombre", "Desconocido")}',
-            'start': cita.fecha.strftime('%Y-%m-%dT%H:%M:%S'),
-            'end': (cita.fecha + cita.duracion).strftime('%Y-%m-%dT%H:%M:%S') if cita.duracion else None
+            'title': f'Cita con {paciente_nombre}',
+            'start': cita.fecha_hora.strftime('%Y-%m-%dT%H:%M:%S'),
+            'end': (cita.fecha_hora + timedelta(minutes=30)).strftime('%Y-%m-%dT%H:%M:%S') 
         })
     return render_template('calendario/calendario.html', eventos=eventos)
 
