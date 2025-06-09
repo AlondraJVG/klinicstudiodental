@@ -29,85 +29,85 @@
             {% endwith %}
 
             <form action="{{ url_for('paciente.nuevo_paciente') }}" method="POST">
-                <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" required>
-                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="apellido" class="form-label">Apellido:</label>
-                    <input type="text" class="form-control" id="apellido" name="apellido" required>
-                </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido:</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido" required>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
-                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
-                </div>
+                        <div class="mb-3">
+                            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+                            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="sexo" class="form-label">Sexo:</label>
-                    <select class="form-select" id="sexo" name="sexo" required>
-                        <option value="" disabled selected>Selecciona una opción</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Otro">Otro</option>
-                    </select>
-                </div>
+                        <div class="mb-3">
+                            <label for="sexo" class="form-label">Sexo:</label>
+                            <select class="form-select" id="sexo" name="sexo" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="tipo_sangre" class="form-label">Tipo de Sangre:</label>
-                    <select class="form-select" id="tipo_sangre" name="tipo_sangre" required>
-                        <option value="" disabled selected>Selecciona una opción</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
-                </div>
+                        <div class="mb-3">
+                            <label for="tipo_sangre" class="form-label">Tipo de Sangre:</label>
+                            <select class="form-select" id="tipo_sangre" name="tipo_sangre" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="alergias" class="form-label">Alergias:</label>
-                    <textarea class="form-control" id="alergias" name="alergias"
-                        rows="2">{{ request.form.alergias or '' }}</textarea>
-                </div>
+                        <div class="mb-3">
+                            <label for="alergias" class="form-label">Alergias:</label>
+                            <textarea class="form-control" id="alergias" name="alergias" rows="2">{{ request.form.alergias or '' }}</textarea>
+                        </div>
 
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo Electrónico:</label>
+                            <input type="email" class="form-control" id="correo" name="correo" required>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="correo" class="form-label">Correo Electrónico:</label>
-                    <input type="email" class="form-control" id="correo" name="correo" required>
-                </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono:</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="telefono" class="form-label">Teléfono:</label>
-                    <input type="text" class="form-control" id="telefono" name="telefono" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="domicilio" class="form-label">Domicilio:</label>
-                    <textarea class="form-control" id="domicilio" name="domicilio" rows="2"
-                        required>{{ form_data.domicilio if form_data else '' }}</textarea>
-                </div>
+                        <div class="mb-3">
+                            <label for="domicilio" class="form-label">Domicilio:</label>
+                            <textarea class="form-control" id="domicilio" name="domicilio" rows="2" required>{{ form_data.domicilio if form_data else '' }}</textarea>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="contacto_emergencia" class="form-label">Teléfono de contacto de emergencia:</label>
-                    <textarea class="form-control" id="contacto_emergencia" name="contacto_emergencia" rows="2"
-                        required></textarea>
-                </div>
+                        <div class="mb-3">
+                            <label for="contacto_emergencia" class="form-label">Teléfono de contacto de emergencia:</label>
+                            <textarea class="form-control" id="contacto_emergencia" name="contacto_emergencia" rows="2" required></textarea>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="nombre_contacto" class="form-label">Nombre de contacto de emergencia:</label>
-                    <textarea class="form-control" id="nombre_contacto" name="nombre_contacto" rows="2"
-                        required></textarea>
-                </div>
+                        <div class="mb-3">
+                            <label for="nombre_contacto" class="form-label">Nombre de contacto de emergencia:</label>
+                            <textarea class="form-control" id="nombre_contacto" name="nombre_contacto" rows="2" required></textarea>
+                        </div>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Guardar Paciente</button>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Guardar Paciente</button>
+                        </div>
+                    </div>
                 </div>
             </form>
+
         </div>
     </div>
 </div>
