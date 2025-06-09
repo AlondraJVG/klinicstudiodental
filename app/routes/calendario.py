@@ -1,25 +1,24 @@
 from flask import Blueprint, render_template, jsonify
-from app.models.Citas import Cita
 from flask_login import login_required
+from app.models import Cita
+from datetime import timedelta
 
-calendario_bp = Blueprint('calendario', __name__, url_prefix='/calendario')
+calendario_bp = Blueprint('calendario', __name__)
 
-@calendario_bp.route('/')
+@calendario_bp.route('/calendario/')
 @login_required
 def ver_calendario():
-    from sqlalchemy.orm import joinedload
-    citas = Cita.query.options(joinedload(Cita.paciente)).all()
+    citas = Cita.query.all()
     eventos = []
     for cita in citas:
-        paciente_nombre = f"{cita.paciente.nombre} {cita.paciente.apellido}" if cita.paciente else "Paciente desconocido"
         eventos.append({
-        'title': f'Cita con {cita.paciente.nombre} {cita.paciente.apellido}',
-        'start': cita.fecha_hora.strftime('%Y-%m-%dT%H:%M:%S'),
-        'end': (cita.fecha_hora + timedelta(minutes=30)).strftime('%Y-%m-%dT%H:%M:%S'),
-    })
+            'title': f'Cita con {cita.paciente.nombre} {cita.paciente.apellido}',
+            'start': cita.fecha_hora.strftime('%Y-%m-%dT%H:%M:%S'),
+            'end': (cita.fecha_hora + timedelta(minutes=30)).strftime('%Y-%m-%dT%H:%M:%S'),
+        })
     return render_template('calendario/calendario.html', eventos=eventos)
 
-@calendario_bp.route('/eventos')
+@calendario_bp.route('/calendario/eventos')
 @login_required
 def obtener_eventos():
     citas = Cita.query.all()
@@ -27,10 +26,10 @@ def obtener_eventos():
 
     for cita in citas:
         eventos.append({
-            'title': f'Cita: {cita.paciente.nombre} {cita.paciente.apellido}',
-            'start': cita.fecha_hora.isoformat(),
-            'end': cita.fecha_hora.isoformat(),
-            'url': f'/citas/editar/{cita.id}'
+            'title': f'Cita con {cita.paciente.nombre} {cita.paciente.apellido}',
+            'start': cita.fecha_hora.strftime('%Y-%m-%dT%H:%M:%S'),
+            'end': (cita.fecha_hora + timedelta(minutes=30)).strftime('%Y-%m-%dT%H:%M:%S'),
+            'url': f'/citas/{cita.id}',  
         })
 
     return jsonify(eventos)
