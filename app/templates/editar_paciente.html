@@ -60,6 +60,11 @@
                 required>
         </div>
         <div class="mb-3">
+            <label for="domicilio" class="form-label">Domicilio:</label>
+            <textarea class="form-control" id="domicilio" name="domicilio" rows="2" required>{{ paciente.domicilio }}</textarea>
+        </div>
+
+        <div class="mb-3">
             <label for="contacto_emergencia" class="form-label">Teléfono Contacto Emergencia</label>
             <input type="tel" class="form-control" id="contacto_emergencia" name="contacto_emergencia"
                 value="{{ paciente.contacto_emergencia }}" required>

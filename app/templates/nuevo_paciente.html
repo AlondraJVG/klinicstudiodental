@@ -71,7 +71,8 @@
 
                 <div class="mb-3">
                     <label for="alergias" class="form-label">Alergias:</label>
-                    <textarea class="form-control" id="alergias" name="alergias" rows="2">{{ request.form.alergias or '' }}</textarea>
+                    <textarea class="form-control" id="alergias" name="alergias"
+                        rows="2">{{ request.form.alergias or '' }}</textarea>
                 </div>
 
 
@@ -83,6 +84,12 @@
                 <div class="mb-3">
                     <label for="telefono" class="form-label">Teléfono:</label>
                     <input type="text" class="form-control" id="telefono" name="telefono" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="domicilio" class="form-label">Domicilio:</label>
+                    <textarea class="form-control" id="domicilio" name="domicilio" rows="2"
+                        required>{{ form_data.domicilio if form_data else '' }}</textarea>
                 </div>
 
                 <div class="mb-3">

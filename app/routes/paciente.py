@@ -74,6 +74,7 @@ def nuevo_paciente():
         tipo_sangre = request.form['tipo_sangre']
         alergias =request.form['alergias']
         telefono = request.form['telefono']
+        domicilio = request.form['domicilio']
         contacto_emergencia = request.form['contacto_emergencia']
         nombre_contacto = request.form['nombre_contacto']
 
@@ -87,6 +88,7 @@ def nuevo_paciente():
             alergias = alergias,
             correo=correo_lower,
             telefono=telefono,
+            domicilio=domicilio,
             contacto_emergencia=contacto_emergencia,
             nombre_contacto=nombre_contacto
         
@@ -112,6 +114,7 @@ def editar_paciente(id):
         paciente.edad = calcular_edad(paciente.fecha_nacimiento)
         paciente.sexo = request.form['sexo']
         paciente.tipo_sangre = request.form['tipo_sangre']
+        paciente.domicilio = request.form['domicilio']
         paciente.correo = request.form['correo']
         paciente.telefono = request.form['telefono']
         paciente.contacto_emergencia = request.form['contacto_emergencia']
