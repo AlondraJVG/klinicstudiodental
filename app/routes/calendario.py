@@ -7,7 +7,15 @@ calendario_bp = Blueprint('calendario', __name__, url_prefix='/calendario')
 @calendario_bp.route('/')
 @login_required
 def ver_calendario():
-    return render_template('calendario/calendario.html')
+    citas = Cita.query.all()
+    eventos = []
+    for cita in citas:
+        eventos.append({
+            'title': f'Cita con {cita.paciente.nombre}',
+            'start': cita.fecha.strftime('%Y-%m-%dT%H:%M:%S'),
+            'end': (cita.fecha + cita.duracion).strftime('%Y-%m-%dT%H:%M:%S') if cita.duracion else None
+        })
+    return render_template('calendario/calendario.html', eventos=eventos)
 
 @calendario_bp.route('/eventos')
 @login_required

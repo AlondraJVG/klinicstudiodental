@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
     <ul class="menu-lateral">
         <li class="submenu">
             <a href="#" class="submenu-toggle">
@@ -22,6 +23,13 @@
                 <li><a href="{{ url_for('citas.listar_citas') }}">Ver Citas</a></li>
             </ul>
         </li>
+        <li class="submenu">
+            <a href="{{ url_for('calendario.ver_calendario') }}">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendario</span>
+            </a>
+        </li>
+
 
         <li class="submenu">
             <a href="#" class="submenu-toggle">
