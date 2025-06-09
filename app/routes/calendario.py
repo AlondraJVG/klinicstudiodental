@@ -10,12 +10,14 @@ def ver_calendario():
     citas = Cita.query.all()
     eventos = []
     for cita in citas:
+        print("Cita ID:", cita.id)
+        print("Paciente:", getattr(cita, 'paciente', 'No encontrado'))
         eventos.append({
-            'title': f'Cita con {cita.paciente.nombre}',
+            'title': f'Cita con {getattr(cita.paciente, "nombre", "Desconocido")}',
             'start': cita.fecha.strftime('%Y-%m-%dT%H:%M:%S'),
             'end': (cita.fecha + cita.duracion).strftime('%Y-%m-%dT%H:%M:%S') if cita.duracion else None
         })
-    return render_template('calendario/calendario.html')
+    return render_template('calendario/calendario.html', eventos=eventos)
 
 @calendario_bp.route('/eventos')
 @login_required
