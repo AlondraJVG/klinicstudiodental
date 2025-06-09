@@ -46,11 +46,13 @@ def create_app():
     from app.routes.cita import cita_bp
     from app.routes.tratamiento import tratamiento_bp
     from app.routes.historial_tratamientos import historial_tratamientos_bp
+    from app.routes.calendario import calendario_bp
 
     app.register_blueprint(auth_bp)          
     app.register_blueprint(paciente_bp)      
     app.register_blueprint(cita_bp)
     app.register_blueprint(tratamiento_bp)
     app.register_blueprint(historial_tratamientos_bp)
+    app.register_blueprint(calendario_bp)
 
     return app
