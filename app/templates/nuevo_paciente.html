@@ -18,7 +18,7 @@
             {% if messages %}
             <ul>
                 {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
+                <li class="{{ category }}">{{ message }}</li>
                 {% endfor %}
             </ul>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -68,6 +68,12 @@
                         <option value="O-">O-</option>
                     </select>
                 </div>
+
+                <div class="mb-3">
+                    <label for="alergias" class="form-label">Alergias:</label>
+                    <textarea class="form-control" id="alergias" name="alergias" rows="2">{{ request.form.alergias or '' }}</textarea>
+                </div>
+
 
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo Electrónico:</label>

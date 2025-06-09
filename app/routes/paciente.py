@@ -75,6 +75,7 @@ def nuevo_paciente():
         telefono = request.form['telefono']
         contacto_emergencia = request.form['contacto_emergencia']
         nombre_contacto = request.form['nombre_contacto']
+        alergias =request.form['alergias']
 
         nuevo = Paciente(
             nombre=nombre_lower,
@@ -86,7 +87,9 @@ def nuevo_paciente():
             correo=correo_lower,
             telefono=telefono,
             contacto_emergencia=contacto_emergencia,
-            nombre_contacto=nombre_contacto
+            nombre_contacto=nombre_contacto,
+            alergias = alergias
+
         )
         db.session.add(nuevo)
         db.session.commit()
