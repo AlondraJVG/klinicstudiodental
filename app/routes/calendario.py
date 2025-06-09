@@ -15,7 +15,7 @@ def ver_calendario():
             'start': cita.fecha.strftime('%Y-%m-%dT%H:%M:%S'),
             'end': (cita.fecha + cita.duracion).strftime('%Y-%m-%dT%H:%M:%S') if cita.duracion else None
         })
-    return render_template('calendario/calendario.html', eventos=eventos)
+    return render_template('calendario/calendario.html')
 
 @calendario_bp.route('/eventos')
 @login_required
