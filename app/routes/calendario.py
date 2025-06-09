@@ -13,10 +13,10 @@ def ver_calendario():
     for cita in citas:
         paciente_nombre = f"{cita.paciente.nombre} {cita.paciente.apellido}" if cita.paciente else "Paciente desconocido"
         eventos.append({
-            'title': f'Cita con {paciente_nombre}',
-            'start': cita.fecha_hora.strftime('%Y-%m-%dT%H:%M:%S'),
-            'end': (cita.fecha_hora + timedelta(minutes=30)).strftime('%Y-%m-%dT%H:%M:%S') 
-        })
+        'title': f'Cita con {cita.paciente.nombre} {cita.paciente.apellido}',
+        'start': cita.fecha_hora.strftime('%Y-%m-%dT%H:%M:%S'),
+        'end': (cita.fecha_hora + timedelta(minutes=30)).strftime('%Y-%m-%dT%H:%M:%S'),
+    })
     return render_template('calendario/calendario.html', eventos=eventos)
 
 @calendario_bp.route('/eventos')
