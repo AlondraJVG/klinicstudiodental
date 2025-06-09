@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, jsonify
 from flask_login import login_required
-from ..models import Cita
+from app.models import Cita
 from datetime import timedelta
 
 calendario_bp = Blueprint('calendario', __name__)
